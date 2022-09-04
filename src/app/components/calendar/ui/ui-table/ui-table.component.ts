@@ -7,6 +7,7 @@ import { daysInMonth, firstWeekdayInMonth } from 'src/app/utils/date.util';
   styles: [`
     table { table-layout: fixed; }
     th { text-align: center; font-weight: 500 }
+    td:nth-child(1), td:nth-child(7) { background: #f5f5f5; color: #2b6cb0 }
   `]
 })
 export class UiTableComponent implements OnInit {
@@ -26,12 +27,10 @@ export class UiTableComponent implements OnInit {
     for (let r = 0; r < 5; r++) {
       for (let c = 0; c < 7; c++) {
         (r === 0 && c === 0) ? c = c + firstWeekday : null;
-        (daysCounter <= days) ? this.daysMat[r][c] = { dayNumber: daysCounter, activeCell: true } : null;
+        (daysCounter <= days) ? this.daysMat[r][c] = { dayNumber: daysCounter, date: new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), daysCounter), activeCell: true } : null;
         daysCounter++;
       }
     }
-
-    console.log(this.daysMat)
   }
 
 }

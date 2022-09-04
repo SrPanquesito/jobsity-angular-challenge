@@ -8,7 +8,7 @@ import { Reminder } from '../interfaces/reminder';
 })
 export class CalendarService {
 
-  reminders: Reminder[] = [];
+  private reminders: Reminder[] = [];
 
   constructor() { }
 

@@ -50,9 +50,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   openReminderForm(reminder?: Reminder) {
     this.matDialog.open(ReminderFormComponent, {
-      data: {
-        reminder,
-      },
+      data: { reminder },
+      width: '75vh'
     });
   }
 

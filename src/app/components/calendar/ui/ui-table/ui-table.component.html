@@ -16,6 +16,7 @@
         <tr *ngFor="let row of daysMat">
             <td *ngFor="let cell of row" class="w-1/7">
                 <ui-table-cell
+                    [date]="cell?.date"
                     [dayNumber]="cell?.dayNumber"
                 ></ui-table-cell>
             </td>
