@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'ui-table-cell',
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class UiTableCellComponent implements OnInit {
+  @Input() dayNumber: string | number = 0;
 
   constructor() { }
 

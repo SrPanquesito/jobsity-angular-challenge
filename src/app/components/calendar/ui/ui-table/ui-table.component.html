@@ -1,12 +1,24 @@
-<table>
-    <thead>
-        <tr>
-            <th>Head</th>
+<h1 class="text-4xl font-semibold w-full text-center">{{ currentDate | date: 'MMMM, y' }}</h1>
+
+<table class="w-full">
+    <thead class="border border-gray-500">
+        <tr class="font-medium bg-blue-700 text-gray-100">
+            <th class="w-1/7 overflow-hidden">Sunday</th>
+            <th class="w-1/7 overflow-hidden">Monday</th>
+            <th class="w-1/7 overflow-hidden">Tuesday</th>
+            <th class="w-1/7 overflow-hidden">Wednesday</th>
+            <th class="w-1/7 overflow-hidden">Thursday</th>
+            <th class="w-1/7 overflow-hidden">Friday</th>
+            <th class="w-1/7 overflow-hidden">Saturday</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <ui-table-cell></ui-table-cell>
+        <tr *ngFor="let row of daysMat">
+            <td *ngFor="let cell of row" class="w-1/7">
+                <ui-table-cell
+                    [dayNumber]="cell?.dayNumber"
+                ></ui-table-cell>
+            </td>
         </tr>
     </tbody>
 </table>
