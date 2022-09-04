@@ -1,7 +1,7 @@
 <form class="flex flex-col gap-6" [formGroup]="form">
     <mat-form-field class="lg:w-1/2">
         <mat-label>Description</mat-label>
-        <input matInput formControlName="text" maxlength="30" placeholder="Ex. I need help with...">
+        <input matInput formControlName="text" maxlength="30" placeholder="Ex. I need help with..." autocomplete="reminder-description">
         <mat-hint align="end">{{text.value.length}} / 30</mat-hint>
         <mat-error *ngIf="text.hasError('required')">
             Description is <strong>required</strong>

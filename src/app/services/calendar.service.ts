@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Reminder } from '../interfaces/reminder';
-
+import citiesJson from 'cities.json';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +9,15 @@ import { Reminder } from '../interfaces/reminder';
 export class CalendarService {
 
   private reminders: Reminder[] = [];
+  public cities: any;
 
   constructor() { }
+
+  async filterCities() {
+    this.cities = JSON.parse(JSON.stringify(citiesJson));
+    this.cities = this.cities.filter(el => el.country === 'US');
+    console.warn(this.cities);
+  }
 
   create(data: Reminder): Reminder {
     return data;

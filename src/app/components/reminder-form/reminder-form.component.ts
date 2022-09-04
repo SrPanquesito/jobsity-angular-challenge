@@ -28,8 +28,7 @@ export class ReminderFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let setDate = this.formatDate(this.data.dateTime);
-    this.data?.dateTime ? this.date.setValue(setDate) : null;
+    this.data?.dateTime ? this.date.setValue(this.formatDate(this.data.dateTime)) : null;
   }
 
   formatDate(date: Date) {

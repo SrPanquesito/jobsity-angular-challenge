@@ -24,6 +24,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.calendarService.filterCities();
+
     this.calendarService.list(new Date())
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((reminders: Reminder[]) => {
