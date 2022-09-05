@@ -2,7 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Reminder } from 'src/app/interfaces/reminder';
+import { City } from 'src/app/interfaces/city';
 import { CalendarService } from 'src/app/services/calendar.service';
+import { Observable } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reminder-form',
@@ -17,6 +20,10 @@ export class ReminderFormComponent implements OnInit {
     'time': new FormControl('', [Validators.required]),
   });
 
+  private cityAutocompleteOptions: Array<City> = [];
+  private cityFilteredOptions: Array<City> = [];
+  public filteredOptions: Observable<Array<City>>;
+
   get text() { return this.form.get('text') }
   get city() { return this.form.get('city') }
   get date() { return this.form.get('date') }
@@ -28,11 +35,34 @@ export class ReminderFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.cityAutocompleteOptions = this._CalendarService.cities;
+    console.log(this.cityAutocompleteOptions);
+
+    if (this.cityAutocompleteOptions) {
+      this.filteredOptions = this.city.valueChanges
+      .pipe(
+        debounceTime(250),
+        startWith(''),
+        map(value => { this.cityFilteredOptions = this._filter(value); return this.cityFilteredOptions.length > 5 ? this.cityFilteredOptions.slice(0,5) : this.cityFilteredOptions.slice(0,1) })
+      );
+    }
+
     this.data?.dateTime ? this.date.setValue(this.formatDate(this.data.dateTime)) : null;
+  }
+
+  onSelectedCity(e: City) {
+    this.city.setValue(e.name.charAt(0).toUpperCase() + e.name.slice(1));
+
+    // Fetch weather
   }
 
   formatDate(date: Date) {
     return date.toISOString().split('T')[0]
+  }
+
+  private _filter(value: string): Array<City> {
+    const filterValue = value.toLowerCase();
+    return this.cityAutocompleteOptions.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
 }

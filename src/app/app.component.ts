@@ -1,22 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CalendarService } from './services/calendar.service';
+import citiesJSON from 'cities.json';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'AngularChallenge';
-}
+export class AppComponent implements OnInit {
 
-if (typeof Worker !== 'undefined') {
-  // Create a new
-  const worker = new Worker('./app.worker', { type: 'module' });
-  worker.onmessage = ({ data }) => {
-    console.log(`page got message: ${data}`);
-  };
-  worker.postMessage('hello');
-} else {
-  // Web Workers are not supported in this environment.
-  // You should add a fallback so that your program still executes correctly.
+  constructor(
+    private _CalendarService: CalendarService,
+  ) { }
+
+  ngOnInit(): void {
+    if (typeof Worker !== 'undefined') {
+      // Filter cities.json to retireve only the cities of the country we define here. In this case 'US' by default.
+      const worker = new Worker('./app.worker', { type: 'module' });
+      worker.onmessage = ({ data }) => { this._CalendarService.cities = data.cities };
+      worker.postMessage({ country: 'US' });
+    } else {
+      // Web Workers are not supported in this environment. Set all cities.
+      this._CalendarService.cities = JSON.parse(JSON.stringify(citiesJSON));
+    }
+  }
 }
