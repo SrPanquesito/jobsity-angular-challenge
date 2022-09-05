@@ -1,40 +1,59 @@
-<form class="flex flex-col gap-6" [formGroup]="form">
-    <mat-form-field class="lg:w-1/2">
-        <mat-label>Description</mat-label>
-        <input matInput formControlName="text" maxlength="30" placeholder="Ex. I need help with..." autocomplete="reminder-description">
-        <mat-hint align="end">{{text.value.length}} / 30</mat-hint>
-        <mat-error *ngIf="text.hasError('required')">
-            Description is <strong>required</strong>
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field class="lg:w-1/2">
-        <mat-label>City</mat-label>
-        <input matInput formControlName="city" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" (click)="onSelectedCity(option)">
-              {{ option.name | firstLetterUppercase }} ({{ option.country }})
-            </mat-option>
-        </mat-autocomplete>
-        <mat-error *ngIf="city.hasError('required')">
-            City is <strong>required</strong>
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field class="lg:w-1/2">
-        <mat-label>Date</mat-label>
-        <input matInput formControlName="date" type="date">
-        <mat-error *ngIf="date.hasError('required')">
-            Date is <strong>required</strong>
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field class="lg:w-1/2">
-        <mat-label>Time</mat-label>
-        <input matInput formControlName="time" type="time">
-        <mat-error *ngIf="time.hasError('required')">
-            Time is <strong>required</strong>
-        </mat-error>
-    </mat-form-field>
+<div class="flex flex-col-reverse lg:flex-row justify-center">
+    <form class="flex flex-col gap-6 lg:w-1/2" [formGroup]="form">
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="text" maxlength="30" placeholder="Ex. I need help with..." autocomplete="reminder-description">
+            <mat-hint align="end">{{text.value.length}} / 30</mat-hint>
+            <mat-error *ngIf="text.hasError('required')">
+                Description is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
     
-</form>  
+        <mat-form-field>
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" (click)="onSelectedCity(option)">
+                  {{ option.name | firstLetterUppercase }} ({{ option.country }})
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="city.hasError('required')">
+                City is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>Date</mat-label>
+            <input matInput formControlName="date" type="date">
+            <mat-error *ngIf="date.hasError('required')">
+                Date is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>Time</mat-label>
+            <input matInput formControlName="time" type="time">
+            <mat-error *ngIf="time.hasError('required')">
+                Time is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        
+    </form>
+    <div class="flex flex-col justify-center items-center lg:w-1/2 relative">
+        <ng-container *ngIf="data?.weather as weather; else renderNoInfoAvailable">
+            <div class="absolute top-2 right-2">
+                <div class="flex flex-row gap-2 text-xl">
+                    <span class="cursor-pointer" [ngClass]="{'text-gray-500': !temperatureInCelsius}" (click)="temperatureInCelsius = true">C</span>
+                    <span>|</span>
+                    <span class="cursor-pointer" [ngClass]="{'text-gray-500': temperatureInCelsius}" (click)="temperatureInCelsius = false">F</span>
+                </div>
+            </div>
+            <img [src]="'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png'" alt="">
+            <h1 class="text-xl font-bold"> {{ temperatureInCelsius ? (weather.temp.day | kelvinToCelsius) : (weather.temp.day | kelvinToFahrenheit) }}°{{ temperatureInCelsius ? 'C' : 'F' }}</h1>
+            <p> {{ weather.weather[0].description | firstLetterUppercase }} </p>
+        </ng-container>
+        <ng-template #renderNoInfoAvailable>
+            <span class="text-xl text-gray-500">No weather info available yet...</span>
+        </ng-template>
+    </div>
+</div>

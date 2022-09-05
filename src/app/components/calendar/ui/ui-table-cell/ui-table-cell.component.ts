@@ -28,7 +28,7 @@ export class UiTableCellComponent implements OnInit {
   onOpenReminderForm(reminder?: Reminder) {
     if (this.date) {
       this._MatDialog.open(ReminderFormComponent, {
-        data: { dateTime: this.date, ...reminder },
+        data: { dateTime: this.date, weather: this.weather, ...reminder },
         width: '75vh'
       });
     }

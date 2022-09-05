@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Reminder } from 'src/app/interfaces/reminder';
+import { Weather } from 'src/app/interfaces/weather';
 import { City } from 'src/app/interfaces/city';
 import { CalendarService } from 'src/app/services/calendar.service';
 import { Observable } from 'rxjs';
@@ -29,8 +30,10 @@ export class ReminderFormComponent implements OnInit {
   get date() { return this.form.get('date') }
   get time() { return this.form.get('time') }
 
+  public temperatureInCelsius = true;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Reminder,
+    @Inject(MAT_DIALOG_DATA) public data: Reminder & Weather,
     private _CalendarService: CalendarService,
   ) { }
 

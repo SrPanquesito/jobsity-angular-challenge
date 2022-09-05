@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FirstLetterUppercasePipe } from 'src/app/pipes/first-letter-uppercase.pipe';
+import { KelvinToCelsiusPipe } from 'src/app/pipes/kelvin-to-celsius.pipe';
+import { KelvinToFahrenheitPipe } from 'src/app/pipes/kelvin-to-fahrenheit.pipe';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,7 +12,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const APP = [
-  FirstLetterUppercasePipe
+  FirstLetterUppercasePipe,
+  KelvinToCelsiusPipe,
+  KelvinToFahrenheitPipe,
 ];
 
 const MATERIAL_MODULES = [
@@ -25,7 +29,7 @@ const MATERIAL_MODULES = [
 
 @NgModule({
   declarations: [
-    FirstLetterUppercasePipe
+    ...APP
   ],
   imports: [
     CommonModule,
