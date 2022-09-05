@@ -9,11 +9,12 @@ import { Observable } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-reminder-form',
-  templateUrl: './reminder-form.component.html',
-  styleUrls: ['./reminder-form.component.scss']
+  selector: 'app-form-reminder',
+  templateUrl: './form-reminder.component.html',
+  styles: [
+  ]
 })
-export class ReminderFormComponent implements OnInit {
+export class FormReminderComponent implements OnInit {
   public form: FormGroup = new FormGroup({
     'text': new FormControl('', [Validators.required, Validators.maxLength(30)]),
     'city': new FormControl('', [Validators.required]),
@@ -69,3 +70,4 @@ export class ReminderFormComponent implements OnInit {
   }
 
 }
+

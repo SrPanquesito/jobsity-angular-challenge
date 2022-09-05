@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { daysInMonth, firstWeekdayInMonth, arrayToMatrix } from 'src/app/utils/utils';
+import { daysInMonth, firstWeekdayInMonth, arrayToMatrix } from '@shared/utils/utils';
 import { Observable, Subject } from 'rxjs';
 import { WeatherService } from 'src/app/services/weather.service';
 import { map, takeUntil } from 'rxjs/operators';

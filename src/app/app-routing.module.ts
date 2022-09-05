@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'calendar',
-    loadChildren: () => import('./components/calendar/calendar.module').then(m => m.CalendarModule),
+    loadChildren: () => import('./containers/calendar/calendar.module').then(m => m.CalendarModule),
   },
   {
     path: '**',
