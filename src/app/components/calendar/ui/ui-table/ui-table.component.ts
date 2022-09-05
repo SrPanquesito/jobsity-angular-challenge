@@ -22,13 +22,17 @@ export class UiTableComponent implements OnInit {
     // For some reason 0 and 1 equals to January when using this process to retrieve month days.
     let days = daysInMonth(this.currentDate.getMonth()+1, this.currentDate.getFullYear());
     let firstWeekday = firstWeekdayInMonth(this.currentDate.getMonth(), this.currentDate.getFullYear());
+    let currentDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate());
 
-    let daysCounter = 1;
+    let dayNumber = 1;
     for (let r = 0; r < 5; r++) {
       for (let c = 0; c < 7; c++) {
         (r === 0 && c === 0) ? c = c + firstWeekday : null;
-        (daysCounter <= days) ? this.daysMat[r][c] = { dayNumber: daysCounter, date: new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), daysCounter), activeCell: true } : null;
-        daysCounter++;
+        if (dayNumber <= days) {
+          let date = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), dayNumber);
+          this.daysMat[r][c] = { dayNumber, date, currentDay: date === currentDay, activeCell: true }
+        }
+        dayNumber++;
       }
     }
   }

@@ -10,5 +10,7 @@ export class ApiService {
     private _HttpClient: HttpClient,
   ) { }
 
-  
+  getOpenWeatherHistory() {
+    // return this._HttpClient.get()
+  }
 }

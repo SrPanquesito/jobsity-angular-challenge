@@ -13,6 +13,7 @@ import { ReminderFormComponent } from 'src/app/components/reminder-form/reminder
 export class UiTableCellComponent implements OnInit {
   @Input() date: any = new Date();
   @Input() dayNumber: string | number = 0;
+  @Input() currentDay: boolean = false;
 
   constructor(
     private _CalendarService: CalendarService,
@@ -24,6 +25,7 @@ export class UiTableCellComponent implements OnInit {
 
   onOpenReminderForm(reminder?: Reminder) {
     if (this.date) {
+      console.log(this.currentDay);
       this._MatDialog.open(ReminderFormComponent, {
         data: { dateTime: this.date, ...reminder },
         width: '75vh'

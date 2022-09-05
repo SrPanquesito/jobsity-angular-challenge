@@ -36,7 +36,6 @@ export class ReminderFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.cityAutocompleteOptions = this._CalendarService.cities;
-    console.log(this.cityAutocompleteOptions);
 
     if (this.cityAutocompleteOptions) {
       this.filteredOptions = this.city.valueChanges
@@ -53,6 +52,7 @@ export class ReminderFormComponent implements OnInit {
   onSelectedCity(e: City) {
     this.city.setValue(e.name.charAt(0).toUpperCase() + e.name.slice(1));
 
+    console.log(e);
     // Fetch weather
   }
 
