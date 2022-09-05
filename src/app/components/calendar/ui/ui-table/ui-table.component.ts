@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { daysInMonth, firstWeekdayInMonth } from 'src/app/utils/date.util';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { daysInMonth, firstWeekdayInMonth, arrayToMatrix } from 'src/app/utils/utils';
+import { Observable, Subject } from 'rxjs';
+import { WeatherService } from 'src/app/services/weather.service';
+import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'ui-table',
@@ -10,30 +13,73 @@ import { daysInMonth, firstWeekdayInMonth } from 'src/app/utils/date.util';
     td:nth-child(1), td:nth-child(7) { background: #f5f5f5; color: #2b6cb0 }
   `]
 })
-export class UiTableComponent implements OnInit {
+export class UiTableComponent implements OnInit, OnDestroy {
   public currentDate = new Date();
-  public daysMat = new Array(5).fill(null).map(() => new Array(7).fill(null));
+  public daysMatrix = new Array(5).fill(null).map(() => new Array(7).fill(null));
 
-  constructor() { }
+  public weeklyForecast$: Observable<Array<any>> = this._WeatherService.weeklyForecast$;
+
+  private destroy$: Subject<any> = new Subject();
+
+  constructor(
+    private _WeatherService: WeatherService,
+  ) { }
 
   ngOnInit(): void { 
     // this.currentDate.setMonth(4);
 
-    // For some reason 0 and 1 equals to January when using this process to retrieve month days.
-    let days = daysInMonth(this.currentDate.getMonth()+1, this.currentDate.getFullYear());
-    let firstWeekday = firstWeekdayInMonth(this.currentDate.getMonth(), this.currentDate.getFullYear());
+    this.weeklyForecast$
+    .pipe(
+      takeUntil(this.destroy$),
+      map((week: Array<any>) => {
+        this.calculateMonthDays(week);
+        console.warn(this.daysMatrix);
+      })
+    )
+    .subscribe();
+  }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
+  }
+
+  /**
+   * Fill the matrix with the corresponding date, dayNumber and calculate the first day of the week.
+   * Necessary for rendering the correct month view with it's corresponding days in the UI.
+   */
+   calculateMonthDays(forecastWeek?: Array<any>) {
+    const daysInCurrentMonth = daysInMonth(this.currentDate.getMonth()+1, this.currentDate.getFullYear());
+
+    // Start the counter from the firstWeekday of the current month. This counter will be used to fill the month days.
+    let counter = firstWeekdayInMonth(this.currentDate.getMonth(), this.currentDate.getFullYear());
+
+    let cells = new Array(35).fill(null);
     let dayNumber = 1;
-    for (let r = 0; r < 5; r++) {
-      for (let c = 0; c < 7; c++) {
-        (r === 0 && c === 0) ? c = c + firstWeekday : null;
-        if (dayNumber <= days) {
-          let date = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), dayNumber);
-          this.daysMat[r][c] = { dayNumber, date, currentDay: this.currentDate.getDate() === dayNumber, activeCell: true }
+    while (dayNumber <= daysInCurrentMonth) {
+      let date = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), dayNumber);
+      let currentDay = this.calculateCurrentDay(date);
+
+      // Fill current week with the forecast info
+      if (currentDay && forecastWeek.length) {
+        for (let i = 0; i < forecastWeek.length; i++) {
+          cells[counter+i] = { weather: forecastWeek[i] };
         }
-        dayNumber++;
       }
+
+      cells[counter] = { dayNumber, date, currentDay, ...cells[counter] };
+      counter++;
+      dayNumber++;
     }
+
+    this.daysMatrix = arrayToMatrix(cells, 7);
+  }
+
+  /**
+   * Need to change logic once we create the full calendar (different year and month)
+   */
+  calculateCurrentDay(dateToCompare: Date) {
+    return (dateToCompare.getFullYear() === this.currentDate.getFullYear() && dateToCompare.getMonth() === this.currentDate.getMonth() && dateToCompare.getDate() === this.currentDate.getDate())
   }
 
 }

@@ -1,6 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { Reminder } from 'src/app/interfaces/reminder';
 import { CalendarService } from 'src/app/services/calendar.service';
 import { WeatherService } from 'src/app/services/weather.service';
@@ -13,9 +11,7 @@ import { ReminderFormComponent } from '../reminder-form/reminder-form.component'
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent implements OnInit, OnDestroy {
-
-  onDestroy$ = new Subject<boolean>();
+export class CalendarComponent implements OnInit {
 
   constructor(
     private calendarService: CalendarService,
@@ -24,11 +20,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
   }
 
   openReminderForm(reminder?: Reminder) {

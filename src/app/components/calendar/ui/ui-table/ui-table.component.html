@@ -13,12 +13,13 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let row of daysMat">
+        <tr *ngFor="let row of daysMatrix">
             <td *ngFor="let cell of row" class="w-1/7">
                 <ui-table-cell
                     [date]="cell?.date"
                     [dayNumber]="cell?.dayNumber"
                     [currentDay]="cell?.currentDay"
+                    [weather]="cell?.weather"
                 ></ui-table-cell>
             </td>
         </tr>

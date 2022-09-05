@@ -3,6 +3,7 @@ import { CalendarService } from 'src/app/services/calendar.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Reminder } from 'src/app/interfaces/reminder';
 import { ReminderFormComponent } from 'src/app/components/reminder-form/reminder-form.component';
+import { Weather } from 'src/app/interfaces/weather';
 
 @Component({
   selector: 'ui-table-cell',
@@ -14,6 +15,7 @@ export class UiTableCellComponent implements OnInit {
   @Input() date: any = new Date();
   @Input() dayNumber: string | number = 0;
   @Input() currentDay: boolean = false;
+  @Input() weather?: Weather;
 
   constructor(
     private _CalendarService: CalendarService,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment as env } from 'src/environments/environment';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +12,7 @@ export class ApiService {
     private _HttpClient: HttpClient,
   ) { }
 
-  temp = new BehaviorSubject({});
-
   getOpenWeatherForecast(payload: any): Observable<any> {
-    this.temp.next(payload);
-    return this.temp
     return this._HttpClient.get(env.openWeather_url + env.openWeather_forecast, {
       params: {
         lat: payload.lat,
@@ -27,7 +23,7 @@ export class ApiService {
     })
   }
 
-  getOpenWeatherLatLon(payload: {city: string}) {
+  getOpenWeatherLatLon(payload: {city: string}): Observable<any> {
     return this._HttpClient.get(env.openWeather_url + env.openWeather_geocoding, {
       params: {
         q: payload.city,
