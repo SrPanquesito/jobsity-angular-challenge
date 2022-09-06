@@ -1,11 +1,15 @@
-<section class="flex w-full h-full">
-    <aside class="flex justify-center items-center w-5/12 bg-paletteBlue-light">
+<section class="flex flex-col lg:flex-row w-full h-full">
+    <aside class="flex flex-row lg:flex-col justify-center items-center w-full lg:w-4/12 bg-paletteBlue-light lg:pr-16 rounded-right-border-desktop">
         <ui-year-picker
             [years]="[2020,2021,2022]"
-            (onYearChange)="onYearChanged($event)"
+            (onChange)="onYearChanged($event)"
         ></ui-year-picker>
+        <ui-month-picker
+            [months]="['Jan', 'Feb', 'Mar']"
+            (onChange)="onMonthChanged($event)"
+        ></ui-month-picker>
     </aside>
-    <section class="flex justify-start items-center w-7/12 z-10 bg-white">
-        <ui-table class="max-w-screen-xl lg:-ml-16"></ui-table>
+    <section class="flex justify-start items-center w-full lg:w-8/12 z-10 bg-white">
+        <ui-table class="max-w-screen-xl"></ui-table>
     </section>
 </section>

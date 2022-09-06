@@ -10,6 +10,7 @@ import { UiTableComponent } from './ui/ui-table/ui-table.component';
 import { UiTableCellComponent } from './ui/ui-table-cell/ui-table-cell.component';
 import { FormReminderComponent } from './components/form-reminder/form-reminder.component';
 import { UiYearPickerComponent } from './ui/ui-year-picker/ui-year-picker.component';
+import { UiMonthPickerComponent } from './ui/ui-month-picker/ui-month-picker.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { UiYearPickerComponent } from './ui/ui-year-picker/ui-year-picker.compon
     UiTableComponent,
     UiTableCellComponent,
     UiYearPickerComponent,
+    UiMonthPickerComponent,
   ],
   imports: [
     CommonModule,

@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'ui-year-picker',
-  templateUrl: './ui-year-picker.component.html',
+  selector: 'ui-month-picker',
+  templateUrl: './ui-month-picker.component.html',
   styles: [
   ]
 })
-export class UiYearPickerComponent implements OnInit {
-  @Input() years: Array<number> = [new Date().getFullYear()];
+export class UiMonthPickerComponent implements OnInit {
+  @Input() months: Array<number> = [new Date().getMonth()];
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
@@ -16,7 +16,7 @@ export class UiYearPickerComponent implements OnInit {
   }
 
   onChangedIndex(e: any) {
-    this.onChange.emit(this.years[e]);
+    this.onChange.emit(this.months[e]);
   }
 
 }

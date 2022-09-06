@@ -6,3 +6,29 @@
 
 html, body { height: 100%; }
 button:focus { outline: none }
+
+.rounded-right-border-desktop:after {
+    content: ""
+}
+.rounded-right-border-desktop * {
+    z-index: 5;
+}
+@media (min-width: 1024px) {
+    .rounded-right-border-desktop {
+        position: relative;
+        overflow: hidden;
+    }
+    .rounded-right-border-desktop:after {
+        position: absolute;
+        z-index: 0;
+        left: 75%;
+        --tw-border-opacity: 1;
+        content: "";
+        height: 150vh;
+        border-left: 500px solid white;
+        border-bottom: 0 solid transparent;
+        border-right: 500px solid white;
+        border-top: 0 solid transparent;
+        border-radius: 100%;
+    }
+}

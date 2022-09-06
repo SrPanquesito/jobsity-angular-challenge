@@ -1,5 +1,5 @@
+import { AfterViewInit, Component, ContentChildren, Directive, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, Output, EventEmitter, Input } from '@angular/core';
 import { animate, AnimationBuilder, AnimationMetadata, AnimationPlayer, style } from '@angular/animations';
-import { AfterViewInit, Component, ContentChildren, Directive, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, Output, EventEmitter } from '@angular/core';
 import { CarouselItemDirective } from './carousel-item.directive';
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,6 +17,8 @@ export class CarouselItemElementDirective {
   `]
 })
 export class CarouselComponent implements OnInit, AfterViewInit {
+  @Input() vertical: boolean = false;
+  @Input() scroller: boolean = false;
   @ContentChildren(CarouselItemDirective) items!: QueryList<CarouselItemDirective>;
   @ViewChildren(CarouselItemElementDirective, { read: ElementRef }) private itemsElements : QueryList<ElementRef>;
   public currentSlide = 0;
