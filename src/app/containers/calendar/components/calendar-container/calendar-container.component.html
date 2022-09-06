@@ -1,3 +1,11 @@
-<section class="flex justify-center lg:m-12">
-    <ui-table class="max-w-screen-xl"></ui-table>
+<section class="flex w-full h-full">
+    <aside class="flex justify-center items-center w-3/12 bg-paletteBlue-light">
+        <ui-year-picker
+            [years]="[2020,2021,2022]"
+            (onYearChange)="onYearChanged($event)"
+        ></ui-year-picker>
+    </aside>
+    <div class="flex justify-center items-center lg:m-12 w-9/12">
+        <ui-table class="max-w-screen-xl"></ui-table>
+    </div>
 </section>

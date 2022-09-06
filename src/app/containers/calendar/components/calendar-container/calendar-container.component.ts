@@ -3,14 +3,18 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'calendar-container',
   templateUrl: './calendar-container.component.html',
-  styles: [
-  ]
+  styles: [`
+  `]
 })
 export class CalendarContainerComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onYearChanged(e: any) {
+    console.warn(e);
   }
 
 }

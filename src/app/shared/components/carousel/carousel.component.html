@@ -1,0 +1,17 @@
+<div class="flex flex-row justify-between items-center gap-4">
+    <button (click)="onPreviousClick()">
+        <mat-icon class="text-paletteBlue-dark" aria-hidden="false" aria-label="Previous">arrow_left</mat-icon>
+    </button>
+
+    <div class="overflow-hidden" [ngStyle]="carouselWrapperStyle">
+        <div class="flex" #carousel>
+            <div *ngFor="let item of items; let i = index" class="carousel-item">
+                <ng-container [ngTemplateOutlet]="item.tpl"></ng-container>
+            </div>
+        </div>
+    </div>
+
+    <button (click)="onNextClick()">
+        <mat-icon class="text-paletteBlue-dark" aria-hidden="false" aria-label="Next">arrow_right</mat-icon>
+    </button>
+</div>

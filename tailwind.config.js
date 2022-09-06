@@ -6,6 +6,13 @@ module.exports = {
   purge: [],
   theme: {
     extend: {
+      colors: {
+        paletteBlue: {
+          default: '#5b78fc',
+          'light': '#f2f2ff',
+          'dark': '#d8d9f7',
+        }
+      },
       width: {
         '1/7': '14.2857143%',
         '2/7': '28.5714286%',
