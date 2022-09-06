@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ContentChildren, Directive, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, Output, EventEmitter, Input } from '@angular/core';
 import { animate, AnimationBuilder, AnimationMetadata, AnimationPlayer, style } from '@angular/animations';
 import { CarouselItemDirective } from './carousel-item.directive';
-import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft, faCaretRight, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 @Directive({
   selector: '.carousel-item'
@@ -24,7 +24,7 @@ export class CarouselComponent implements OnInit, AfterViewInit {
   public currentSlide = 0;
 
   public carouselWrapperStyle = {};
-  private carouselWidth?: number;
+  private carouselDimension?: number;
   private player!: AnimationPlayer;
   @ViewChild('carousel') private carousel!: ElementRef;
 
@@ -33,6 +33,8 @@ export class CarouselComponent implements OnInit, AfterViewInit {
   // Icons
   faCaretRight = faCaretRight;
   faCaretLeft = faCaretLeft;
+  faCaretUp = faCaretUp;
+  faCaretDown = faCaretDown;
 
   constructor(private _AnimationBuilder: AnimationBuilder) { }
 
@@ -41,15 +43,15 @@ export class CarouselComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.carouselWidth = this.itemsElements.first.nativeElement.getBoundingClientRect().width;
-      this.carouselWrapperStyle = { width: `${this.carouselWidth}px` }
+      this.carouselDimension = this.vertical ? this.itemsElements.first.nativeElement.getBoundingClientRect().height : this.itemsElements.first.nativeElement.getBoundingClientRect().width;
+      this.carouselWrapperStyle = this.vertical ? { height: `${this.carouselDimension}px` } : { width: `${this.carouselDimension}px` }
     }, 100);
   }
 
   onPreviousClick() {
     const previous = this.currentSlide - 1;
     this.currentSlide = previous < 0 ? this.items.length - 1 : previous;
-    const offset = (this.currentSlide * this.carouselWidth);
+    const offset = (this.currentSlide * this.carouselDimension);
     const factory = this._AnimationBuilder.build(this.slide(offset));
     this.player = factory.create(this.carousel.nativeElement);
     this.player.play();
@@ -59,7 +61,7 @@ export class CarouselComponent implements OnInit, AfterViewInit {
   onNextClick() {
     const next = this.currentSlide + 1;
     this.currentSlide = next === this.items.length ? 0 : next;
-    const offset = (this.currentSlide * this.carouselWidth);
+    const offset = (this.currentSlide * this.carouselDimension);
     const factory = this._AnimationBuilder.build(this.slide(offset));
     this.player = factory.create(this.carousel.nativeElement);
     this.player.play();
@@ -68,7 +70,7 @@ export class CarouselComponent implements OnInit, AfterViewInit {
 
   private slide(offset: any): AnimationMetadata[] {
     return [
-      animate('300ms ease-in', style({ transform: `translateX(-${offset}px)` })),
+      animate('300ms ease-in', style({ transform: this.vertical ? `translateY(-${offset}px)` : `translateX(-${offset}px)` })),
     ];
   }
 

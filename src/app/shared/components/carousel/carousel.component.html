@@ -1,17 +1,21 @@
-<div class="flex flex-row justify-between items-center gap-4">
-    <button (click)="onPreviousClick()" class="text-2xl">
-        <fa-icon class="text-paletteBlue-dark" [icon]="faCaretLeft" size="lg"></fa-icon>
-    </button>
+<div class="flex justify-between items-center gap-4" [ngClass]="{'flex-col': vertical}">
+    <ng-container *ngIf="!scroller">
+        <button (click)="onPreviousClick()" class="text-2xl">
+            <fa-icon class="text-paletteBlue-dark" [icon]="vertical ? faCaretUp : faCaretLeft" size="lg"></fa-icon>
+        </button>
+    </ng-container>
 
-    <div class="overflow-hidden" [ngStyle]="carouselWrapperStyle">
-        <div class="flex" #carousel>
+    <div [ngClass]="{'overflow-hidden': !scroller}" [ngStyle]="carouselWrapperStyle">
+        <div class="flex" [ngClass]="{'flex-col': vertical}" #carousel>
             <div *ngFor="let item of items; let i = index" class="carousel-item">
                 <ng-container [ngTemplateOutlet]="item.tpl"></ng-container>
             </div>
         </div>
     </div>
 
-    <button (click)="onNextClick()" class="text-2xl">
-        <fa-icon class="text-paletteBlue-dark" [icon]="faCaretRight" size="lg"></fa-icon>
-    </button>
+    <ng-container *ngIf="!scroller">
+        <button (click)="onNextClick()" class="text-2xl">
+            <fa-icon class="text-paletteBlue-dark" [icon]="vertical ? faCaretDown : faCaretRight" size="lg"></fa-icon>
+        </button>
+    </ng-container>
 </div>
