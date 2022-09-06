@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChildren, Directive, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, Output, EventEmitter, Input } from '@angular/core';
+import { AfterViewInit, Component, ContentChildren, Directive, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, Output, EventEmitter, Input, HostListener } from '@angular/core';
 import { animate, AnimationBuilder, AnimationMetadata, AnimationPlayer, style } from '@angular/animations';
 import { CarouselItemDirective } from './carousel-item.directive';
 import { faCaretLeft, faCaretRight, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
@@ -14,11 +14,34 @@ export class CarouselItemElementDirective {
   templateUrl: './carousel.component.html',
   styles: [`
     .material-icons { font-size: 40px !important; }
+    .scroll-fade { position: relative }
+    .scroll-fade:before {
+      content  : "";
+      position : absolute;
+      z-index  : 10;
+      top   : 0;
+      left     : 0;
+      pointer-events   : none;
+      background-image : linear-gradient(to top, rgba(255,255,255, 0), #f2f2ff 90%);
+      width    : 100%;
+      height   : 4em;
+    }
+    .scroll-fade:after {
+      content  : "";
+      position : absolute;
+      z-index  : 10;
+      bottom   : 0;
+      left     : 0;
+      pointer-events   : none;
+      background-image : linear-gradient(to bottom, rgba(255,255,255, 0), #f2f2ff 90%);
+      width    : 100%;
+      height   : 4em;
+    }
   `]
 })
 export class CarouselComponent implements OnInit, AfterViewInit {
   @Input() vertical: boolean = false;
-  @Input() scroller: boolean = false;
+  @Input() scroll: boolean = false;
   @ContentChildren(CarouselItemDirective) items!: QueryList<CarouselItemDirective>;
   @ViewChildren(CarouselItemElementDirective, { read: ElementRef }) private itemsElements : QueryList<ElementRef>;
   public currentSlide = 0;
@@ -70,8 +93,24 @@ export class CarouselComponent implements OnInit, AfterViewInit {
 
   private slide(offset: any): AnimationMetadata[] {
     return [
-      animate('300ms ease-in', style({ transform: this.vertical ? `translateY(-${offset}px)` : `translateX(-${offset}px)` })),
+      animate(this.scroll ? '200ms ease-in-out' : '300ms ease-in' , style({ transform: this.vertical ? `translateY(-${offset}px)` : `translateX(-${offset}px)` })),
     ];
+  }
+
+  private isPlayingAnimation = false;
+  @HostListener('wheel', ['$event'])
+  onElementScroll(e: any) {
+    if (e.deltaY > 10 || e.deltaY < -10) {
+      if (this.isPlayingAnimation) return
+      this.isPlayingAnimation = true;
+
+      setTimeout(() => {
+        // upscroll / downscroll
+        if (e.deltaY < -10) { this.onPreviousClick() }
+        else { this.onNextClick() }
+        this.isPlayingAnimation = false;
+      }, 300);
+    }
   }
 
 }

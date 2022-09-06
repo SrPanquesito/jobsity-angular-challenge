@@ -13,6 +13,10 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // this.runWorker();
+  }
+
+  runWorker() {
     if (typeof Worker !== 'undefined') {
       // Filter cities.json to retireve only the cities of the country we define here. In this case 'US' by default.
       const worker = new Worker('./app.worker', { type: 'module' });
