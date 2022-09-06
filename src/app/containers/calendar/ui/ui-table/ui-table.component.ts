@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { daysInMonth, firstWeekdayInMonth, arrayToMatrix } from '@shared/utils/utils';
 import { Observable, Subject } from 'rxjs';
-import { WeatherService } from 'src/app/services/weather.service';
 import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -17,26 +16,13 @@ export class UiTableComponent implements OnInit, OnDestroy {
   public currentDate = new Date();
   public daysMatrix = new Array(5).fill(null).map(() => new Array(7).fill(null));
 
-  public weeklyForecast$: Observable<Array<any>> = this._WeatherService.weeklyForecast$;
-
   private destroy$: Subject<any> = new Subject();
 
   constructor(
-    private _WeatherService: WeatherService,
   ) { }
 
   ngOnInit(): void { 
-    // this.currentDate.setMonth(4);
-
-    this.weeklyForecast$
-    .pipe(
-      takeUntil(this.destroy$),
-      map((week: Array<any>) => {
-        this.calculateMonthDays(week);
-        console.warn(this.daysMatrix);
-      })
-    )
-    .subscribe();
+    this.calculateMonthDays();
   }
 
   ngOnDestroy(): void {
@@ -61,7 +47,8 @@ export class UiTableComponent implements OnInit, OnDestroy {
       let currentDay = this.calculateCurrentDay(date);
 
       // Fill current week with the forecast info
-      if (currentDay && forecastWeek.length) {
+      if (currentDay && forecastWeek) {
+        if (forecastWeek.length <= 0) return
         for (let i = 0; i < forecastWeek.length; i++) {
           cells[counter+i] = { weather: forecastWeek[i] };
         }

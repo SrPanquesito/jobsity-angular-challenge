@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
+import { CalendarApiService } from './api/calendar-api.service';
 import { flatMap, first, map, catchError } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
+/**
+ * I'll move all this into the calendar facade.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +15,7 @@ export class WeatherService {
   public weeklyForecast$ = this.weeklyForecast.asObservable();
 
   constructor(
-    private _ApiService: ApiService
+    private _ApiService: CalendarApiService
   ) { }
 
   getWeeklyForecast() {

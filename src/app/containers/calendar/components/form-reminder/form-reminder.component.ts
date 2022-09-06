@@ -1,10 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Reminder } from 'src/app/interfaces/reminder';
-import { Weather } from 'src/app/interfaces/weather';
-import { City } from 'src/app/interfaces/city';
-import { CalendarService } from 'src/app/services/calendar.service';
+import { Reminder, City, Weather } from '@containers/calendar/interfaces/calendar.interface';
+import { AppService } from 'src/app/app.service';
 import { Observable } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
 
@@ -35,11 +33,11 @@ export class FormReminderComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Reminder & Weather,
-    private _CalendarService: CalendarService,
+    private _AppService: AppService,
   ) { }
 
   ngOnInit(): void {
-    this.cityAutocompleteOptions = this._CalendarService.cities;
+    this.cityAutocompleteOptions = this._AppService.cities;
 
     if (this.cityAutocompleteOptions) {
       this.filteredOptions = this.city.valueChanges

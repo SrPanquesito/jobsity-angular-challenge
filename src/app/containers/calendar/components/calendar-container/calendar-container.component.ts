@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
   selector: 'calendar-container',
@@ -9,12 +8,9 @@ import { WeatherService } from 'src/app/services/weather.service';
 })
 export class CalendarContainerComponent implements OnInit {
 
-  constructor(
-    private _WeatherService: WeatherService,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this._WeatherService.getWeeklyForecast();
   }
 
 }

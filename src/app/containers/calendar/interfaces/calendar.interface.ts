@@ -1,3 +1,17 @@
+export interface City {
+    country: string;
+    name: string;
+    lat: string | number;
+    lon: string | number;
+}
+
+export interface Reminder {
+    text: string;
+    dateTime: Date;
+    color: string;
+    city?: string;
+}
+
 export interface Weather {
     dt: Date | number,
     sunrise: Date | number,

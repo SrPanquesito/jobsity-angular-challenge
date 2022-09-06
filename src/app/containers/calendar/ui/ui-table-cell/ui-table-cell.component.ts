@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CalendarService } from 'src/app/services/calendar.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Reminder } from 'src/app/interfaces/reminder';
-import { ReminderFormComponent } from 'src/app/components/reminder-form/reminder-form.component';
-import { Weather } from 'src/app/interfaces/weather';
+import { Reminder, Weather } from '@containers/calendar/interfaces/calendar.interface';
+import { FormReminderComponent } from '@containers/calendar/components/form-reminder/form-reminder.component';
 
 @Component({
   selector: 'ui-table-cell',
@@ -18,7 +16,6 @@ export class UiTableCellComponent implements OnInit {
   @Input() weather?: Weather;
 
   constructor(
-    private _CalendarService: CalendarService,
     private _MatDialog: MatDialog,
   ) { }
 
@@ -27,7 +24,7 @@ export class UiTableCellComponent implements OnInit {
 
   onOpenReminderForm(reminder?: Reminder) {
     if (this.date) {
-      this._MatDialog.open(ReminderFormComponent, {
+      this._MatDialog.open(FormReminderComponent, {
         data: { dateTime: this.date, weather: this.weather, ...reminder },
         width: '75vh'
       });

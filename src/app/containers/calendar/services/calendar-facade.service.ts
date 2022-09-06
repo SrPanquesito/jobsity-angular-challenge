@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Reminder } from '../interfaces/reminder';
+import { CalendarApiService } from './api/calendar-api.service';
+import { CalendarStateService } from './state/calendar-state.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CalendarService {
+export class CalendarFacadeService {
 
   private reminders: Reminder[] = [];
-  public cities: any;
 
-  constructor() { }
+  constructor(
+    private _CalendarApiService: CalendarApiService,
+    private _CalendarStateService: CalendarStateService,
+  ) { }
 
   create(data: Reminder): Reminder {
     return data;

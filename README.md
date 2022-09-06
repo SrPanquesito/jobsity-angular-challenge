@@ -4,6 +4,46 @@
 
 # Angular Challenge
 
+## About The Solution
+
+### Project Strucrure
+
+```
+├── app
+│   ├── app-routing.module.ts
+│   ├── app.component.ts
+│   ├── app.module.ts
+│   ├── app.service.ts
+│   ├── app.worker.ts
+│   ├── containers
+│   │   └── calendar
+│   │       ├── calendar-routing.module.ts
+│   │       ├── calendar.component.html
+│   │       ├── calendar.component.ts
+│   │       ├── calendar.module.ts
+│   │       ├── components
+│   │       │   ├── calendar-container
+│   │       │   └── form-reminder
+│   │       ├── interfaces
+│   │       │   └── calendar.interface.ts
+│   │       ├── services
+│   │       │   ├── api
+│   │       │   │   └── calendar-api.service.ts
+│   │       │   ├── calendar-facade.service.ts
+│   │       │   ├── state
+│   │       │   │   └── calendar-state.service.ts
+│   │       └── ui
+│   │           ├── ui-table
+│   │           └── ui-table-cell
+│   └── shared
+│       ├── components
+│       ├── ng-material.module.ts
+│       ├── pipes
+│       ├── services
+│       ├── shared.module.ts
+│       └── utils
+```
+
 ## Description
 
 This project is designed to test your knowledge of front-end web technologies and assess your ability to create front-​end UI products with attention to details, cross-browser compatibility, standards, and  reusability.

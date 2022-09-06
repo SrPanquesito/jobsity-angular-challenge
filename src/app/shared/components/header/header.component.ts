@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Reminder } from 'src/app/interfaces/reminder';
+import { Reminder } from '@containers/calendar/interfaces/calendar.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { FormReminderComponent } from '../form-reminder/form-reminder.component';
+import { FormReminderComponent } from '@containers/calendar/components/form-reminder/form-reminder.component';
 
 @Component({
   selector: 'app-header',

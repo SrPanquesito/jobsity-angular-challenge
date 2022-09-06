@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class CalendarApiService {
 
   constructor(
     private _HttpClient: HttpClient,
@@ -32,5 +32,4 @@ export class ApiService {
     })
   }
 
-  // http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
 }
