@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { DialogService } from '@ngneat/dialog';
 import { Reminder, Weather } from '@containers/calendar/interfaces/calendar.interface';
 import { FormReminderComponent } from '@containers/calendar/components/form-reminder/form-reminder.component';
 
@@ -16,7 +16,7 @@ export class UiTableCellComponent implements OnInit {
   @Input() weather?: Weather;
 
   constructor(
-    private _MatDialog: MatDialog,
+    private _DialogService: DialogService,
   ) { }
 
   ngOnInit(): void {
@@ -24,9 +24,9 @@ export class UiTableCellComponent implements OnInit {
 
   onOpenReminderForm(reminder?: Reminder) {
     if (this.date) {
-      this._MatDialog.open(FormReminderComponent, {
+      this._DialogService.open(FormReminderComponent, {
         data: { dateTime: this.date, weather: this.weather, ...reminder },
-        width: '75vh'
+        width: '90vh'
       });
     }
   }

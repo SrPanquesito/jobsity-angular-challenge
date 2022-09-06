@@ -1,6 +1,6 @@
 <div class="flex flex-row justify-between items-center gap-4">
-    <button (click)="onPreviousClick()">
-        <mat-icon class="text-paletteBlue-dark" aria-hidden="false" aria-label="Previous">arrow_left</mat-icon>
+    <button (click)="onPreviousClick()" class="text-2xl">
+        <fa-icon class="text-paletteBlue-dark" [icon]="faCaretLeft" size="lg"></fa-icon>
     </button>
 
     <div class="overflow-hidden" [ngStyle]="carouselWrapperStyle">
@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <button (click)="onNextClick()">
-        <mat-icon class="text-paletteBlue-dark" aria-hidden="false" aria-label="Next">arrow_right</mat-icon>
+    <button (click)="onNextClick()" class="text-2xl">
+        <fa-icon class="text-paletteBlue-dark" [icon]="faCaretRight" size="lg"></fa-icon>
     </button>
 </div>

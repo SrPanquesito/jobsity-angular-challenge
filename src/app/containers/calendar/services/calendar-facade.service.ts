@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Reminder } from '../interfaces/reminder';
+import { Reminder } from '../interfaces/calendar.interface';
 import { CalendarApiService } from './api/calendar-api.service';
 import { CalendarStateService } from './state/calendar-state.service';
 

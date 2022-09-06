@@ -1,6 +1,7 @@
 import { animate, AnimationBuilder, AnimationMetadata, AnimationPlayer, style } from '@angular/animations';
 import { AfterViewInit, Component, ContentChildren, Directive, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, Output, EventEmitter } from '@angular/core';
 import { CarouselItemDirective } from './carousel-item.directive';
+import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 @Directive({
   selector: '.carousel-item'
@@ -26,6 +27,10 @@ export class CarouselComponent implements OnInit, AfterViewInit {
   @ViewChild('carousel') private carousel!: ElementRef;
 
   @Output() onChangedIndex: EventEmitter<any> = new EventEmitter<any>();
+
+  // Icons
+  faCaretRight = faCaretRight;
+  faCaretLeft = faCaretLeft;
 
   constructor(private _AnimationBuilder: AnimationBuilder) { }
 

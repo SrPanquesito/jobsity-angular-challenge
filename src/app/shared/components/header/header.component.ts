@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Reminder } from '@containers/calendar/interfaces/calendar.interface';
-import { MatDialog } from '@angular/material/dialog';
+import { DialogService } from '@ngneat/dialog';
 import { FormReminderComponent } from '@containers/calendar/components/form-reminder/form-reminder.component';
 
 @Component({
@@ -12,16 +12,16 @@ import { FormReminderComponent } from '@containers/calendar/components/form-remi
 export class HeaderComponent implements OnInit {
 
   constructor(
-    private _MatDialog: MatDialog,
+    private _DialogService: DialogService,
   ) { }
 
   ngOnInit(): void {
   }
 
   openReminderForm(reminder?: Reminder) {
-    this._MatDialog.open(FormReminderComponent, {
+    this._DialogService.open(FormReminderComponent, {
       data: { reminder },
-      width: '75vh'
+      width: '90vh'
     });
   }
 

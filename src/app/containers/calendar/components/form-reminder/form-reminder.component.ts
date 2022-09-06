@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogRef } from '@ngneat/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Reminder, City, Weather } from '@containers/calendar/interfaces/calendar.interface';
 import { AppService } from 'src/app/app.service';
@@ -32,7 +32,7 @@ export class FormReminderComponent implements OnInit {
   public temperatureInCelsius = true;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Reminder & Weather,
+    public _ref: DialogRef,
     private _AppService: AppService,
   ) { }
 
@@ -48,7 +48,7 @@ export class FormReminderComponent implements OnInit {
       );
     }
 
-    this.data?.dateTime ? this.date.setValue(this.formatDate(this.data.dateTime)) : null;
+    this._ref?.data.dateTime ? this.date.setValue(this.formatDate(this._ref.data.dateTime)) : null;
   }
 
   onSelectedCity(e: City) {

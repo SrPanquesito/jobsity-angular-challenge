@@ -1,6 +1,6 @@
-<div class="flex flex-col-reverse lg:flex-row justify-center">
-    <form class="flex flex-col gap-6 lg:w-1/2" [formGroup]="form">
-        <mat-form-field>
+<div class="flex flex-col-reverse lg:flex-row justify-center" style="height: 60vh;">
+    <form class="flex flex-col justify-center items-center gap-6 lg:w-1/2" [formGroup]="form">
+        <!-- <mat-form-field>
             <mat-label>Description</mat-label>
             <input matInput formControlName="text" maxlength="30" placeholder="Ex. I need help with..." autocomplete="reminder-description">
             <mat-hint align="end">{{text.value.length}} / 30</mat-hint>
@@ -36,11 +36,13 @@
             <mat-error *ngIf="time.hasError('required')">
                 Time is <strong>required</strong>
             </mat-error>
-        </mat-form-field>
+        </mat-form-field> -->
+
+        Chale
         
     </form>
     <div class="flex flex-col justify-center items-center lg:w-1/2 relative">
-        <ng-container *ngIf="data?.weather as weather; else renderNoInfoAvailable">
+        <ng-container *ngIf="_ref?.data?.weather as weather; else renderNoInfoAvailable">
             <div class="absolute top-2 right-2">
                 <div class="flex flex-row gap-2 text-xl">
                     <span class="cursor-pointer" [ngClass]="{'text-gray-500': !temperatureInCelsius}" (click)="temperatureInCelsius = true">C</span>
