@@ -8,9 +8,8 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class UiMonthPickerComponent implements OnInit {
   @Input() months: Array<number> = [new Date().getMonth()];
+  @Input() currentMonth = new Date().getMonth();
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
-
-  public currentMonth = new Date().getMonth();
 
   constructor() { }
 

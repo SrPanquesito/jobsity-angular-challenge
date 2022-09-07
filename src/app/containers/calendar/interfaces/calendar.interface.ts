@@ -9,7 +9,7 @@ export interface Reminder {
     text: string;
     dateTime: Date;
     color: string;
-    city?: string;
+    city?: string | City;
 }
 
 export interface Weather {
@@ -48,4 +48,15 @@ export interface Weather {
     rain?: number,
     snow?: number,
     uvi?: number,
+}
+
+export class Day {
+    number: number;
+    year: number;
+    month: string;
+    monthIndex: number;
+    weekDayNumber: number;
+
+    reminder?: Reminder;
+    weather?: Weather;
 }

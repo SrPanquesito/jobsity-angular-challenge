@@ -1,4 +1,4 @@
-<carousel (onChangedIndex)="onChangedIndex($event)" [index]="currentYear()">
+<carousel (onChangedIndex)="onChangedIndex($event)" [index]="currentYearIndex()">
     <ng-container *ngFor="let item of years;">
         <ng-container *carouselItem>
             <div class="flex justify-center w-32 cursor-pointer">

@@ -1,15 +1,20 @@
 <section class="flex flex-col lg:flex-row w-full h-full">
     <aside class="flex flex-row lg:flex-col justify-center items-center gap-16 w-full lg:w-4/12 bg-paletteBlue-light lg:pr-16 rounded-right-border-desktop">
         <ui-year-picker
-            [years]="[2020,2021,2022]"
+            [years]="[2018,2019,2020,2021,2022,2023,2024,2025,2026]"
+            [currentYear]="year"
             (onChange)="onYearChanged($event)"
         ></ui-year-picker>
         <ui-month-picker
             [months]="['January', 'February', 'March', 'April', 'June', 'Jule', 'August', 'September', 'October', 'November', 'December']"
+            [currentMonth]="monthIndex"
             (onChange)="onMonthChanged($event)"
         ></ui-month-picker>
     </aside>
     <section class="flex justify-start items-center w-full lg:w-8/12 z-10 bg-white">
-        <ui-table class="max-w-screen-xl"></ui-table>
+        <ui-calendar
+            [days]="monthDays"
+            (onSelectedDay)="onSelectedDay($event)"
+        ></ui-calendar>
     </section>
 </section>
