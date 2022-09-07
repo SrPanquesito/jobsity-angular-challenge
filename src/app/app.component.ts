@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from './app.service';
-import citiesJSON from 'cities.json';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +12,7 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.runWorker();
+    this.runWorker();
   }
 
   runWorker() {
@@ -27,7 +26,7 @@ export class AppComponent implements OnInit {
       worker.postMessage({ country: 'US' });
     } else {
       // Web Workers are not supported in this environment. Set all cities.
-      this._AppService.setCities(JSON.parse(JSON.stringify(citiesJSON)));
+      this._AppService.setCities([]);
     }
   }
 }

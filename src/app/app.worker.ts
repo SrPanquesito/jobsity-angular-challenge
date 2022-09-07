@@ -1,8 +1,10 @@
 /// <reference lib="webworker" />
-import citiesJson from 'cities.json';
+
+let cities = [
+  { country: 'US', name: 'New York' },
+]
 
 function filterCities(country: string) {
-  let cities = JSON.parse(JSON.stringify(citiesJson));
   return cities.filter(el => el.country === country).map(el => { return { ...el, name: el.name.toLowerCase() }});
 }
 

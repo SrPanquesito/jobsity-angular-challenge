@@ -1,19 +1,17 @@
 module.exports = {
-  module: {
+    module: {
       rules: [
-          {
-              test: /\.scss$/,
-              loader: 'postcss-loader',
+        {
+          test: /\.scss$/,
+          use: [
+            {
+              loader: "postcss-loader",
               options: {
-                  ident: 'postcss',
-                  syntax: 'postcss-scss',
-                  plugins: () => [
-                      require('postcss-import'),
-                      require('tailwindcss'),
-                      require('autoprefixer'),
-                  ]
+                plugins: [require("tailwindcss")("./tailwind.config.js")]
               }
-          }
+            }
+          ]
+        }
       ]
-  }
+    }
 };
