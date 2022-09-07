@@ -12,7 +12,6 @@ import { arrayToMatrix } from '@shared/utils/utils';
 })
 export class UiCalendarComponent implements OnInit {
   @Input() days?: Array<Day>;
-  @Input() currentDate: any;
   @Output() onSelectedDay: EventEmitter<any> = new EventEmitter<any>();
 
   public daysMatrix?: Array<Array<Day>>;

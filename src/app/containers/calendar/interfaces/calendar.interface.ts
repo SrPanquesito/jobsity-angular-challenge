@@ -57,6 +57,7 @@ export class Day {
     monthIndex: number;
     weekDayNumber: number;
 
+    activeCell?: boolean;
     isCurrentDay?: boolean;
     reminder?: Reminder;
     weather?: Weather;

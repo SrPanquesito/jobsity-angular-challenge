@@ -1,9 +1,16 @@
 <div class="flex flex-col justify-between items-center relative h-32 overflow-hidden">
-    <div class="cursor-pointer rounded-full" 
-        [ngClass]="{'bg-indigo-300': day.isCurrentDay, 'bg-white-to-gray': !day.isCurrentDay}"
-        (click)="onOpenReminderForm()">
-        <small class="lg:text-3xl font-stem font-medium select-none p-4 text-gray-700">{{ day.number }}</small>
-    </div>
+    <ng-container *ngIf="day.activeCell; else renderDisabledDay">
+        <div class="cursor-pointer rounded-full" 
+            [ngClass]="{'bg-indigo-300': day.isCurrentDay, 'bg-white-to-gray': !day.isCurrentDay}"
+            (click)="onOpenReminderForm()">
+            <small class="lg:text-3xl font-stem font-medium select-none p-4 text-gray-700">{{ day.number }}</small>
+        </div>
+    </ng-container>
+    <ng-template #renderDisabledDay>
+        <div class="cursor-default rounded-full">
+            <small class="lg:text-3xl font-stem font-medium select-none p-4 text-gray-500">{{ day.number }}</small>
+        </div>
+    </ng-template>
     <!-- <ng-container *ngIf="weather">
         <div class="absolute top-0 right-0">
             <img class="w-10 h-10" [src]="'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '.png'" alt="">

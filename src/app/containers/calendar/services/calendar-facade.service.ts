@@ -8,17 +8,13 @@ import { CalendarStateService } from './state/calendar-state.service';
   providedIn: 'root'
 })
 export class CalendarFacadeService {
-  private selectedYear: number;
-  private selectedMonthIndex: number;
-
-  private reminders: Reminder[] = [];
 
   constructor(
     private _CalendarApiService: CalendarApiService,
     private _CalendarStateService: CalendarStateService,
   ) { }
 
-  /* Calendar to UI */
+  /* ******************** Calendar ******************** */
   getMonthsByName(): Array<string> {
     return new Array(12).fill(null).map((e, index) => this._CalendarStateService.getMonthName(index+1));
   }
@@ -27,7 +23,13 @@ export class CalendarFacadeService {
     return this._CalendarStateService.getCurrentMonthDays();
   }
 
-  /* Reminders */
+  getMonthDays(monthIndex: number, year: number) {
+    return this._CalendarStateService.getMonthDays(monthIndex, year);
+  }
+
+  /* ******************** Reminders ******************** */
+  private reminders: Reminder[] = [];
+
   createReminder(data: Reminder): Reminder {
     return data;
   }

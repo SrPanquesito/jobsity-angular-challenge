@@ -43,6 +43,7 @@ export class CalendarStateService {
     for (let i = 2; i < countDaysInMonth +1; i++) {
       let day = this.createDay(i, monthIndex, year);
       this.isDateCurrentDate(day) ? day.isCurrentDay = true : null;
+      day.activeCell = true;
       days.push(day);
     }
 

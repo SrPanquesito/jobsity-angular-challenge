@@ -70,12 +70,10 @@ export class CarouselComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.carouselDimension = this.vertical ? this.itemsElements.first.nativeElement.getBoundingClientRect().height : this.itemsElements.first.nativeElement.getBoundingClientRect().width;
-      this.carouselWrapperStyle = this.vertical ? { height: `${this.carouselDimension}px`, 'padding-top': `${this.carouselDimension}px` } : { width: `${this.carouselDimension}px` }
-      this.carouselListStyle = this.vertical ? { height: `${this.carouselDimension * 3 }px` } : {};
-      this.currentSlide > 0 ? this.playAnimation((this.currentSlide) * this.carouselDimension) : null;
-    }, 100);
+    this.carouselDimension = this.vertical ? this.itemsElements.first.nativeElement.getBoundingClientRect().height : this.itemsElements.first.nativeElement.getBoundingClientRect().width;
+    this.carouselWrapperStyle = this.vertical ? { height: `${this.carouselDimension}px`, 'padding-top': `${this.carouselDimension}px` } : { width: `${this.carouselDimension}px` }
+    this.carouselListStyle = this.vertical ? { height: `${this.carouselDimension * 3 }px` } : {};
+    this.currentSlide > 0 ? this.playAnimation((this.currentSlide) * this.carouselDimension) : null;
   }
 
   onPreviousClick() {

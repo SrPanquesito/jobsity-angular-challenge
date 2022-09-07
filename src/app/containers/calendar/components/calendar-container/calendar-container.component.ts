@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CalendarFacadeService } from '@containers/calendar/services/calendar-facade.service';
 import { Day } from '@containers/calendar/interfaces/calendar.interface';
 
@@ -17,7 +17,7 @@ export class CalendarContainerComponent implements OnInit {
   public selectedYear: number;
 
   constructor(
-    private _CalendarFacadeService: CalendarFacadeService,
+    public _CalendarFacadeService: CalendarFacadeService,
   ) { }
 
   ngOnInit(): void {
@@ -34,9 +34,13 @@ export class CalendarContainerComponent implements OnInit {
   }
 
   onYearChanged(e: any) {
+    this.selectedYear = e;
+    this.days = this._CalendarFacadeService.getMonthDays(this.selectedMonthIndex, e)
   }
 
   onMonthChanged(e: any) {
+    this.selectedMonthIndex = e;
+    this.days = this._CalendarFacadeService.getMonthDays(e, this.selectedYear)
   }
 
   onSelectedDay(e: any) {
