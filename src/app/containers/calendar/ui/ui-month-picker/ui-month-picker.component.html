@@ -1,7 +1,7 @@
-<carousel (onChangedIndex)="onChangedIndex($event)" vertical="true" scroll="true">
+<carousel (onChangedIndex)="onChangedIndex($event)" [index]="currentMonth-1" vertical="true" scroll="true">
     <ng-container *ngFor="let item of months;">
         <ng-container *carouselItem>
-            <div class="flex justify-center w-32">
+            <div class="flex justify-center cursor-pointer">
                 <h2 class="text-4xl font-semibold"> {{ item }} </h2>
             </div>
         </ng-container>

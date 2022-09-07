@@ -14,11 +14,9 @@ export class CalendarContainerComponent implements OnInit {
   }
 
   onYearChanged(e: any) {
-    console.warn(e);
   }
 
   onMonthChanged(e: any) {
-    console.warn(e);
   }
 
 }

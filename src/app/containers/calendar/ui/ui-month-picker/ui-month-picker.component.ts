@@ -10,6 +10,8 @@ export class UiMonthPickerComponent implements OnInit {
   @Input() months: Array<number> = [new Date().getMonth()];
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
 
+  public currentMonth = new Date().getMonth();
+
   constructor() { }
 
   ngOnInit(): void {

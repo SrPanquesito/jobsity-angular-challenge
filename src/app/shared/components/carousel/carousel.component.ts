@@ -14,7 +14,11 @@ export class CarouselItemElementDirective {
   templateUrl: './carousel.component.html',
   styles: [`
     .material-icons { font-size: 40px !important; }
-    .scroll-fade { position: relative }
+    .scroll-fade {
+      position: relative;
+      display: flex;
+      align-content: center;
+    }
     .scroll-fade:before {
       content  : "";
       position : absolute;
@@ -24,7 +28,7 @@ export class CarouselItemElementDirective {
       pointer-events   : none;
       background-image : linear-gradient(to top, rgba(255,255,255, 0), #f2f2ff 90%);
       width    : 100%;
-      height   : 4em;
+      height   : 6em;
     }
     .scroll-fade:after {
       content  : "";
@@ -35,18 +39,19 @@ export class CarouselItemElementDirective {
       pointer-events   : none;
       background-image : linear-gradient(to bottom, rgba(255,255,255, 0), #f2f2ff 90%);
       width    : 100%;
-      height   : 4em;
+      height   : 6em;
     }
   `]
 })
 export class CarouselComponent implements OnInit, AfterViewInit {
   @Input() vertical: boolean = false;
   @Input() scroll: boolean = false;
+  @Input('index') currentSlide: number = 0;
   @ContentChildren(CarouselItemDirective) items!: QueryList<CarouselItemDirective>;
   @ViewChildren(CarouselItemElementDirective, { read: ElementRef }) private itemsElements : QueryList<ElementRef>;
-  public currentSlide = 0;
 
   public carouselWrapperStyle = {};
+  public carouselListStyle = {};
   private carouselDimension?: number;
   private player!: AnimationPlayer;
   @ViewChild('carousel') private carousel!: ElementRef;
@@ -67,7 +72,9 @@ export class CarouselComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.carouselDimension = this.vertical ? this.itemsElements.first.nativeElement.getBoundingClientRect().height : this.itemsElements.first.nativeElement.getBoundingClientRect().width;
-      this.carouselWrapperStyle = this.vertical ? { height: `${this.carouselDimension}px` } : { width: `${this.carouselDimension}px` }
+      this.carouselWrapperStyle = this.vertical ? { height: `${this.carouselDimension}px`, 'padding-top': `${this.carouselDimension}px` } : { width: `${this.carouselDimension}px` }
+      this.carouselListStyle = this.vertical ? { height: `${this.carouselDimension * 3 }px` } : {};
+      this.currentSlide > 0 ? this.playAnimation((this.currentSlide) * this.carouselDimension) : null;
     }, 100);
   }
 
@@ -75,9 +82,7 @@ export class CarouselComponent implements OnInit, AfterViewInit {
     const previous = this.currentSlide - 1;
     this.currentSlide = previous < 0 ? this.items.length - 1 : previous;
     const offset = (this.currentSlide * this.carouselDimension);
-    const factory = this._AnimationBuilder.build(this.slide(offset));
-    this.player = factory.create(this.carousel.nativeElement);
-    this.player.play();
+    this.playAnimation(offset);
     this.onChangedIndex.emit(this.currentSlide);
   }
 
@@ -85,10 +90,14 @@ export class CarouselComponent implements OnInit, AfterViewInit {
     const next = this.currentSlide + 1;
     this.currentSlide = next === this.items.length ? 0 : next;
     const offset = (this.currentSlide * this.carouselDimension);
+    this.playAnimation(offset);
+    this.onChangedIndex.emit(this.currentSlide);
+  }
+
+  playAnimation(offset: number) {
     const factory = this._AnimationBuilder.build(this.slide(offset));
     this.player = factory.create(this.carousel.nativeElement);
     this.player.play();
-    this.onChangedIndex.emit(this.currentSlide);
   }
 
   private slide(offset: any): AnimationMetadata[] {

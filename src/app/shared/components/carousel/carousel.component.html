@@ -1,17 +1,19 @@
-<div class="flex justify-between items-center gap-4" [ngClass]="{'flex-col': vertical, 'scroll-fade': scroll}">
+<div class="flex justify-between items-center gap-4" [ngClass]="{'flex-col': vertical, 'overflow-hidden': scroll}">
     <ng-container *ngIf="!scroll">
         <button (click)="onPreviousClick()" class="text-2xl">
             <fa-icon class="text-paletteBlue-dark" [icon]="vertical ? faCaretUp : faCaretLeft" size="lg"></fa-icon>
         </button>
     </ng-container>
 
-    <div [ngClass]="{'overflow-hidden': !scroll}" [ngStyle]="carouselWrapperStyle">
-        <div #carousel class="flex"
-            [ngClass]="{'flex-col': vertical}"
-            (scroll)="onElementScroll($event)"
-            >
-            <div *ngFor="let item of items; let i = index" class="carousel-item">
-                <ng-container [ngTemplateOutlet]="item.tpl"></ng-container>
+    <div [ngClass]="{'scroll-fade': scroll}" [ngStyle]="carouselListStyle">
+        <div [ngClass]="{'overflow-hidden': !scroll}" [ngStyle]="carouselWrapperStyle">
+            <div #carousel class="flex"
+                [ngClass]="{'flex-col': vertical}"
+                (scroll)="onElementScroll($event)"
+                >
+                <div *ngFor="let item of items; let i = index" class="carousel-item" [ngClass]="{'py-2': (scroll && vertical)}">
+                    <ng-container [ngTemplateOutlet]="item.tpl"></ng-container>
+                </div>
             </div>
         </div>
     </div>

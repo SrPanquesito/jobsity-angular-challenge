@@ -10,9 +10,15 @@ export class UiYearPickerComponent implements OnInit {
   @Input() years: Array<number> = [new Date().getFullYear()];
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
 
+  public year = new Date().getFullYear();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  currentYear() {
+    return this.years.findIndex(e => e === this.year);
   }
 
   onChangedIndex(e: any) {

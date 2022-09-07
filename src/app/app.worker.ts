@@ -1,6 +1,7 @@
 /// <reference lib="webworker" />
 
 let cities = [
+  { country: 'US', name: 'Austin' },
   { country: 'US', name: 'New York' },
 ]
 
