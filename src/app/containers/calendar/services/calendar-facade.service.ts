@@ -8,6 +8,8 @@ import { CalendarStateService } from './state/calendar-state.service';
   providedIn: 'root'
 })
 export class CalendarFacadeService {
+  private selectedYear: number;
+  private selectedMonthIndex: number;
 
   private reminders: Reminder[] = [];
 
@@ -16,20 +18,30 @@ export class CalendarFacadeService {
     private _CalendarStateService: CalendarStateService,
   ) { }
 
-  create(data: Reminder): Reminder {
+  /* Calendar to UI */
+  getMonthsByName(): Array<string> {
+    return new Array(12).fill(null).map((e, index) => this._CalendarStateService.getMonthName(index+1));
+  }
+
+  getCurrentMonthDays() {
+    return this._CalendarStateService.getCurrentMonthDays();
+  }
+
+  /* Reminders */
+  createReminder(data: Reminder): Reminder {
     return data;
   }
 
-  edit(data: Reminder): Reminder {
+  editReminder(data: Reminder): Reminder {
     return data;
   }
 
-  list(date: Date): Observable<Reminder[]> {
+  listReminders(date: Date): Observable<Reminder[]> {
     console.log(date);
     return of(this.reminders);
   }
 
-  delete(reminderId: string): boolean {
+  deleteReminder(reminderId: string): boolean {
     console.log(reminderId);
     return true;
   }

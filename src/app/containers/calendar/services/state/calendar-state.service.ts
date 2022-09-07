@@ -17,7 +17,11 @@ export class CalendarStateService {
   }
 
   public getCurrentDate() {
-    return { year: this.currentYear, month: this.currentMonthIndex, day: this.currentDay }
+    return { year: this.currentYear, monthIndex: this.currentMonthIndex, day: this.currentDay }
+  }
+
+  private isDateCurrentDate(day: Day) {
+    return (this.getCurrentDate().year === day.year && this.getCurrentDate().monthIndex === day.monthIndex && this.getCurrentDate().day === day.number)
   }
 
   public getCurrentMonthDays(): Day[] {
@@ -37,7 +41,9 @@ export class CalendarStateService {
     /* Fill the current days of the month */
     let countDaysInMonth = new Date(year, monthIndex +1, 0).getDate();
     for (let i = 2; i < countDaysInMonth +1; i++) {
-      days.push(this.createDay(i, monthIndex, year));
+      let day = this.createDay(i, monthIndex, year);
+      this.isDateCurrentDate(day) ? day.isCurrentDay = true : null;
+      days.push(day);
     }
 
     /* Fill the days of the next month and his corresponding year. Fixed with 35 elements maximum for the 5x7 calendar default grid. */

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarStateService } from '@containers/calendar/services/state/calendar-state.service';
+import { CalendarFacadeService } from '@containers/calendar/services/calendar-facade.service';
 import { Day } from '@containers/calendar/interfaces/calendar.interface';
 
 @Component({
@@ -13,25 +13,24 @@ export class CalendarContainerComponent implements OnInit {
   public months: string[];
   public years: number[];
 
-  public currentDate: {};
   public selectedMonthIndex: number;
   public selectedYear: number;
 
   constructor(
-    private _CalendarStateService: CalendarStateService,
+    private _CalendarFacadeService: CalendarFacadeService,
   ) { }
 
   ngOnInit(): void {
     /* For calendar UI */
-    this.days = this._CalendarStateService.getCurrentMonthDays()
+    this.days = this._CalendarFacadeService.getCurrentMonthDays()
+    console.log(this.days);
 
     /* For year and month pickers */
     this.years = [2018,2019,2020,2021,2022,2023,2024,2025,2026];
-    this.months = new Array(12).fill(null).map((e, index) => this._CalendarStateService.getMonthName(index+1));
+    this.months = this._CalendarFacadeService.getMonthsByName();
 
     this.selectedMonthIndex = this.days[0].monthIndex;
     this.selectedYear = this.days[0].year;
-    this.currentDate = this._CalendarStateService.getCurrentDate();
   }
 
   onYearChanged(e: any) {

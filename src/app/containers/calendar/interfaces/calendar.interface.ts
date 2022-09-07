@@ -57,6 +57,7 @@ export class Day {
     monthIndex: number;
     weekDayNumber: number;
 
+    isCurrentDay?: boolean;
     reminder?: Reminder;
     weather?: Weather;
 }

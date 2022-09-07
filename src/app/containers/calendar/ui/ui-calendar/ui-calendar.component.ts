@@ -20,7 +20,6 @@ export class UiCalendarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.warn(this.days)
     if (this.days) {
       this.daysMatrix = arrayToMatrix(this.days, 7);
     }

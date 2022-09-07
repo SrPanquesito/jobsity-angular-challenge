@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
+        'stem': ['Stem', 'sans-serif'],
       },
       colors: {
         paletteBlue: {
