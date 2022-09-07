@@ -29,8 +29,8 @@ export class CalendarContainerComponent implements OnInit {
     this.years = [2018,2019,2020,2021,2022,2023,2024,2025,2026];
     this.months = this._CalendarFacadeService.getMonthsByName();
 
-    this.selectedMonthIndex = this.days[0].monthIndex;
-    this.selectedYear = this.days[0].year;
+    this.selectedMonthIndex = this._CalendarFacadeService.getCurrentDate().monthIndex;
+    this.selectedYear = this._CalendarFacadeService.getCurrentDate().year;
   }
 
   onYearChanged(e: any) {
@@ -38,9 +38,9 @@ export class CalendarContainerComponent implements OnInit {
     this.days = this._CalendarFacadeService.getMonthDays(this.selectedMonthIndex, e)
   }
 
-  onMonthChanged(e: any) {
-    this.selectedMonthIndex = e;
-    this.days = this._CalendarFacadeService.getMonthDays(e, this.selectedYear)
+  onMonthChanged(e: string) {
+    this.selectedMonthIndex = this._CalendarFacadeService.getMonthIndex(e)-1;
+    this.days = this._CalendarFacadeService.getMonthDays(this.selectedMonthIndex, this.selectedYear)
   }
 
   onSelectedDay(e: any) {

@@ -124,7 +124,9 @@ export class CarouselComponent implements OnInit, AfterViewInit {
     if (!this.scroll) return
     let selecteElement = this.itemsElements.map((item, index) => { if (item.nativeElement.innerText === el.srcElement.innerText) { return index } } ).filter(el => el !== undefined);
     if (selecteElement[0]) {
-      selecteElement[0] < this.currentSlide ? this.onPreviousClick() : this.onNextClick();
+      if (selecteElement[0] !== this.currentSlide) {
+        selecteElement[0] < this.currentSlide ? this.onPreviousClick() : this.onNextClick();
+      }
     }
     else if (this.currentSlide + 1 === this.items.length) {
       this.currentSlide = 0;

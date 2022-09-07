@@ -33,6 +33,7 @@ export class CalendarStateService {
     let days = [];
 
     let firstday = this.createDay(1, monthIndex, year);
+    firstday.activeCell = true;
 
     /* Create first days starting from previous month and his corresponding year */
     days = this.fillPreviousMonthDays(firstday);
@@ -47,8 +48,8 @@ export class CalendarStateService {
       days.push(day);
     }
 
-    /* Fill the days of the next month and his corresponding year. Fixed with 35 elements maximum for the 5x7 calendar default grid. */
-    let nextDays = this.fillNextMonthDays(days[days.length-1], days.length, 35);
+    /* Fill the days of the next month and his corresponding year. Fixed with 42 elements maximum for the 6x7 calendar default grid. */
+    let nextDays = this.fillNextMonthDays(days[days.length-1], days.length, 42);
     days = days.concat(nextDays);
 
     return days;

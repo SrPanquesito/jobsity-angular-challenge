@@ -27,6 +27,14 @@ export class CalendarFacadeService {
     return this._CalendarStateService.getMonthDays(monthIndex, year);
   }
 
+  getMonthIndex(month: string) {
+    return this._CalendarStateService.getMonthIndex(month);
+  }
+  
+  getCurrentDate() {
+    return this._CalendarStateService.getCurrentDate();
+  }
+
   /* ******************** Reminders ******************** */
   private reminders: Reminder[] = [];
 
