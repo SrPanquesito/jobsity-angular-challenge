@@ -5,7 +5,7 @@
         </button>
     </ng-container>
 
-    <div [ngClass]="{'scroll-fade': scroll}" [ngStyle]="carouselListStyle">
+    <div [ngClass]="{'scroll-fade': scroll}" [ngStyle]="carouselListStyle" (click)="onSelectedFromOverflow($event)">
         <div [ngClass]="{'overflow-hidden': !scroll}" [ngStyle]="carouselWrapperStyle">
             <div #carousel class="flex"
                 [ngClass]="{'flex-col': vertical}"

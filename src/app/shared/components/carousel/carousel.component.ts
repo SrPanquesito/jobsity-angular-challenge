@@ -122,4 +122,20 @@ export class CarouselComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onSelectedFromOverflow(el: any) {
+    if (!this.scroll) return
+    let selecteElement = this.itemsElements.map((item, index) => { if (item.nativeElement.innerText === el.srcElement.innerText) { return index } } ).filter(el => el !== undefined);
+    if (selecteElement[0]) {
+      selecteElement[0] < this.currentSlide ? this.onPreviousClick() : this.onNextClick();
+    }
+    else if (this.currentSlide + 1 === this.items.length) {
+      this.currentSlide = 0;
+      this.playAnimation(this.currentSlide * this.carouselDimension);
+    }
+    else if (this.currentSlide - 1 < 0) {
+      this.currentSlide = this.items.length - 1;
+      this.playAnimation(this.currentSlide * this.carouselDimension);
+    }
+  }
+
 }
