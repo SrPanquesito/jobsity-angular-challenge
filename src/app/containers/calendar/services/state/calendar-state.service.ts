@@ -31,13 +31,7 @@ export class CalendarStateService {
     let firstday = this.createDay(1, monthIndex, year);
 
     /* Create first days starting from previous month and his corresponding year */
-    let prevMonthAndYear = this.calculatePrevMonthYear(firstday.monthIndex, firstday.year);
-    let prevTotalMonthDays = this.totalDaysInMonth(prevMonthAndYear.monthIndex, prevMonthAndYear.year);
-    prevTotalMonthDays = prevTotalMonthDays-(firstday.weekDayNumber-1);
-    for (let i = 0; i < firstday.weekDayNumber; i++) {
-      days.push(this.createDay(prevTotalMonthDays, prevMonthAndYear.monthIndex, prevMonthAndYear.year));
-      prevTotalMonthDays++;
-    }
+    days = this.fillPreviousMonthDays(firstday);
     days.push(firstday);
 
     /* Fill the current days of the month */
@@ -46,11 +40,30 @@ export class CalendarStateService {
       days.push(this.createDay(i, monthIndex, year));
     }
 
+    /* Fill the days of the next month and his corresponding year. Fixed with 35 elements maximum for the 5x7 calendar default grid. */
+    let nextDays = this.fillNextMonthDays(days[days.length-1], days.length, 35);
+    days = days.concat(nextDays);
+
     return days;
   }
 
+  private fillPreviousMonthDays(firstday: Day) {
+    let days = [];
+
+    let prevMonthAndYear = this.calculatePrevMonthYear(firstday.monthIndex, firstday.year);
+    let prevTotalMonthDays = this.totalDaysInMonth(prevMonthAndYear.monthIndex, prevMonthAndYear.year);
+    prevTotalMonthDays = prevTotalMonthDays-(firstday.weekDayNumber-1);
+    
+    for (let i = 0; i < firstday.weekDayNumber; i++) {
+      days.push(this.createDay(prevTotalMonthDays, prevMonthAndYear.monthIndex, prevMonthAndYear.year));
+      prevTotalMonthDays++;
+    }
+
+    return days
+  }
+
   /* Fill remaining days of the current month view with the days of the next month and his corresponding year */
-  public fillMonthDays(lastDay: Day, startLength: number, endLength: number) {
+  private fillNextMonthDays(lastDay: Day, startLength: number, endLength: number) {
     let days = [];
     if (startLength < endLength) {
       let nextMonthAndYear = this.calculateNextMonthYear(lastDay.monthIndex, lastDay.year);
