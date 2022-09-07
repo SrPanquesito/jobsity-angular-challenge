@@ -8,7 +8,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class UiYearPickerComponent implements OnInit {
   @Input() years: Array<number> = [new Date().getFullYear()];
-  @Input() currentYear = new Date().getFullYear();
+  @Input() selectedYear = new Date().getFullYear();
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
@@ -17,7 +17,7 @@ export class UiYearPickerComponent implements OnInit {
   }
 
   currentYearIndex() {
-    return this.years.findIndex(e => e === this.currentYear);
+    return this.years.findIndex(e => e === this.selectedYear);
   }
 
   onChangedIndex(e: any) {

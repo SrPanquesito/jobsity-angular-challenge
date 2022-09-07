@@ -7,11 +7,17 @@ import { Day } from '@containers/calendar/interfaces/calendar.interface';
 export class CalendarStateService {
   private currentYear: number;
   private currentMonthIndex: number;
+  private currentDay: number;
 
   constructor() {
     let date = new Date();
     this.currentYear = date.getFullYear();
     this.currentMonthIndex = date.getMonth(); 
+    this.currentDay = date.getDate(); 
+  }
+
+  public getCurrentDate() {
+    return { year: this.currentYear, month: this.currentMonthIndex, day: this.currentDay }
   }
 
   public getCurrentMonthDays(): Day[] {
@@ -24,23 +30,51 @@ export class CalendarStateService {
 
     let firstday = this.createDay(1, monthIndex, year);
 
-    /* Create first empty cells */
-    for (let i = 1; i < firstday.weekDayNumber; i++) {
-      days.push({
-        weekDayNumber: i,
-        monthIndex: monthIndex,
-        year: year,
-      } as Day);
+    /* Create first days starting from previous month and his corresponding year */
+    let prevMonthAndYear = this.calculatePrevMonthYear(firstday.monthIndex, firstday.year);
+    let prevTotalMonthDays = this.totalDaysInMonth(prevMonthAndYear.monthIndex, prevMonthAndYear.year);
+    prevTotalMonthDays = prevTotalMonthDays-(firstday.weekDayNumber-1);
+    for (let i = 0; i < firstday.weekDayNumber; i++) {
+      days.push(this.createDay(prevTotalMonthDays, prevMonthAndYear.monthIndex, prevMonthAndYear.year));
+      prevTotalMonthDays++;
     }
     days.push(firstday);
 
-    /* For some reason monthIndex calculates 0 and 1 equally as January */
+    /* Fill the current days of the month */
     let countDaysInMonth = new Date(year, monthIndex +1, 0).getDate();
     for (let i = 2; i < countDaysInMonth +1; i++) {
       days.push(this.createDay(i, monthIndex, year));
     }
 
     return days;
+  }
+
+  /* Fill remaining days of the current month view with the days of the next month and his corresponding year */
+  public fillMonthDays(lastDay: Day, startLength: number, endLength: number) {
+    let days = [];
+    if (startLength < endLength) {
+      let nextMonthAndYear = this.calculateNextMonthYear(lastDay.monthIndex, lastDay.year);
+      let dayNumber = 1;
+      for (let i = startLength; i < endLength; i++) {
+        days.push(this.createDay(dayNumber, nextMonthAndYear.monthIndex, nextMonthAndYear.year));
+        dayNumber++;
+      }
+    }
+    return days
+  }
+
+  private totalDaysInMonth(monthIndex: number, year: number) {
+      return new Date(year, monthIndex+1, 0).getDate();
+  }
+
+  private calculatePrevMonthYear(monthIndex: number, year: number) {
+    if (monthIndex === 0) return { monthIndex: 11, year: year-1 };
+    return { monthIndex: monthIndex-1, year: year }
+  }
+
+  private calculateNextMonthYear(monthIndex: number, year: number) {
+    if (monthIndex === 11) return { monthIndex: 0, year: year+1 };
+    return { monthIndex: monthIndex+1, year: year }
   }
 
   public getMonthName(monthIndex: number): string {
@@ -72,6 +106,38 @@ export class CalendarStateService {
 
       default:
         return "|" + monthIndex;
+    }
+  }
+
+  public getMonthIndex(month: string): number {
+    switch (month) {
+      case "January":
+        return 1;
+      case "February":
+        return 2;
+      case "March":
+        return 3;
+      case "April":
+        return 4;
+      case "May":
+        return 5;
+      case "June":
+        return 6;
+      case "July":
+        return 7;
+      case "August":
+        return 8;
+      case "September":
+        return 9;
+      case "October":
+        return 10;
+      case "November":
+        return 11;
+      case "December":
+        return 12;
+
+      default:
+        return 0;
     }
   }
 

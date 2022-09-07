@@ -1,4 +1,32 @@
 <ng-container *ngIf="days">
     <section class="max-w-screen-xl">
+        <h1 class="text-4xl font-semibold w-full text-center">{{ currentDate | date: 'MMMM, y' }}</h1>
+
+        <table class="w-full">
+            <thead class="border border-gray-500">
+                <tr class="font-medium bg-blue-700 text-gray-100">
+                    <th class="w-1/7 overflow-hidden uppercase">Sun</th>
+                    <th class="w-1/7 overflow-hidden uppercase">Mon</th>
+                    <th class="w-1/7 overflow-hidden uppercase">Tue</th>
+                    <th class="w-1/7 overflow-hidden uppercase">Wed</th>
+                    <th class="w-1/7 overflow-hidden uppercase">Thu</th>
+                    <th class="w-1/7 overflow-hidden uppercase">Fri</th>
+                    <th class="w-1/7 overflow-hidden uppercase">Sat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of daysMatrix">
+                    <td *ngFor="let cell of row" class="w-1/7">
+                        {{ cell }}
+                        <!-- <ui-table-cell
+                            [date]="cell?.date"
+                            [dayNumber]="cell?.dayNumber"
+                            [currentDay]="cell?.currentDay"
+                            [weather]="cell?.weather"
+                        ></ui-table-cell> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </section>
 </ng-container>

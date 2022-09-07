@@ -8,7 +8,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class UiMonthPickerComponent implements OnInit {
   @Input() months: Array<number> = [new Date().getMonth()];
-  @Input() currentMonth = new Date().getMonth();
+  @Input() selectedMonth = new Date().getMonth();
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
