@@ -125,8 +125,7 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
 
       if (this._ref?.data?.reminder) {
         reminder.originalCreationDate = this._ref.data.reminder.originalCreationDate
-        let isEdited = this._CalendarFacadeService.editReminder(reminder);
-        console.log('reminder edited was ', isEdited);
+        this._CalendarFacadeService.editReminder(reminder);
       }
       else {
         reminder.originalCreationDate = new Date()

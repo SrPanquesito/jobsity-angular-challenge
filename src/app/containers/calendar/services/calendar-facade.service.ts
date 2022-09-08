@@ -33,7 +33,6 @@ export class CalendarFacadeService {
     this.days$.getValue().forEach((day: Day) => {
       if (reminderDate.year === day.year && reminderDate.monthIndex === day.monthIndex && reminderDate.number === day.number) {
         (day.reminders?.length > 0) ? day.reminders.push(reminder) : day.reminders = [reminder];
-        this.days = [...this.days];
       }
     });
   }
@@ -46,18 +45,18 @@ export class CalendarFacadeService {
         }
       })
     });
-    this.days = [...this.days];
   }
   private editedReminderToDay(editedReminder: Reminder) {
     let reminderDate: any = new Date(editedReminder.dateTime);
     reminderDate = { year: reminderDate.getFullYear(), monthIndex: reminderDate.getMonth(), number: reminderDate.getDate()+1 };
     this.days$.getValue().forEach((day: Day) => {
       if (reminderDate.year === day.year && reminderDate.monthIndex === day.monthIndex && reminderDate.number === day.number) {
-        day.reminders.forEach((reminder: Reminder) => {
-          if (reminder.originalCreationDate === editedReminder.originalCreationDate) {
-            reminder = editedReminder;
+        for (let i = 0; i < day.reminders.length; i++) {
+          if (day.reminders[i].originalCreationDate === editedReminder.originalCreationDate) {
+            day.reminders[i] = editedReminder;
+            break
           }
-        })
+        }
       }
     });
   }
@@ -104,7 +103,7 @@ export class CalendarFacadeService {
         success = true;
         this.reminders[i] = data;
         localStorage.setItem('reminders', JSON.stringify(this.reminders));
-        // this.editedReminderToDay(data);
+        this.editedReminderToDay(data);
         break
       }
     }

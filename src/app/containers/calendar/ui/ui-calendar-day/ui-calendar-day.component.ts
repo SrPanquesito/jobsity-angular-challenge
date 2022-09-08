@@ -15,7 +15,7 @@ import { RemindersBoxService } from '@containers/calendar/services/reminders-box
     }
   `]
 })
-export class UiCalendarDayComponent implements OnInit {
+export class UiCalendarDayComponent implements OnInit, OnChanges {
   @Input() day?: Day;
   @ViewChild('anchorForReminderList') anchorForReminderList: ElementRef;
 
@@ -24,6 +24,12 @@ export class UiCalendarDayComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes?.day?.firstChange) {
+      console.log(changes);
+    }
   }
 
   onOpenReminderList(e: any) {
