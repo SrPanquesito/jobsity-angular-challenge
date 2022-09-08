@@ -10,9 +10,16 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      height: {
+        '60vh': '60vh',
+        '100vh': '100vh',
+      },
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
         'stem': ['Stem', 'sans-serif'],
+      },
+      boxShadow: {
+        'tiny': '0 3px 1px -2px #0003, 0 2px 2px #00000024, 0 1px 5px #0000001f',
       },
       colors: {
         paletteBlue: {

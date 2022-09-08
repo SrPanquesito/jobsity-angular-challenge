@@ -29,10 +29,44 @@
     html, body {
         @apply font-poppins h-full
     }
+
+    input[type="date"]::-webkit-datetime-edit-text,
+    input[type="date"]::-webkit-datetime-edit-month-field,
+    input[type="date"]::-webkit-datetime-edit-day-field,
+    input[type="date"]::-webkit-datetime-edit-year-field {
+        color: #A0AEC0;
+    }
+
+    input[type="time"]::-webkit-datetime-edit-text,
+    input[type="time"]::-webkit-datetime-edit-hour-field,
+    input[type="time"]::-webkit-datetime-edit-minute-field {
+        color: #A0AEC0;
+    }
+
+    input[type="date"].input--has-value::-webkit-datetime-edit-text,
+    input[type="date"].input--has-value::-webkit-datetime-edit-month-field,
+    input[type="date"].input--has-value::-webkit-datetime-edit-day-field,
+    input[type="date"].input--has-value::-webkit-datetime-edit-year-field {
+        color: #4A5568;
+    }
+
+    input[type="time"].input--has-value::-webkit-datetime-edit-text,
+    input[type="time"].input--has-value::-webkit-datetime-edit-hour-field,
+    input[type="time"].input--has-value::-webkit-datetime-edit-minute-field {
+        color: #4A5568;
+    }
+
+    button:focus { outline: none }
+
+    .ngneat-close-dialog svg {
+        width: 32px;
+        height: 32px;
+    }
 }
 
-
-button:focus { outline: none }
+.focus-ring-red-500:focus, .focus-ring-red-500:focus-visible { --tw-ring-color: #F56565; outline: none }
+.focus-ring-green-500:focus, .focus-ring-green-500:focus-visible { --tw-ring-color: #48BB78; outline: none }
+.focus-ring-gray-500:focus, .focus-ring-gray-500:focus-visible { --tw-ring-color: #A0AEC0; outline: none }
 
 .rounded-right-border-desktop:after {
     content: ""

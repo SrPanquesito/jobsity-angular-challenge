@@ -1,7 +1,8 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Day } from '@containers/calendar/interfaces/calendar.interface';
 import { RemindersBoxService } from '@shared/services/reminders-box.service';
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators'
+import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reminders-box',
@@ -14,6 +15,8 @@ export class RemindersBoxComponent implements OnInit, OnDestroy {
   public offsetX: string = '';
   public offsetY: string = '';
   public styleSearchList = '';
+
+  private day?: Day;
 
   private destroy$: Subject<unknown> = new Subject<unknown>();
 
@@ -50,12 +53,17 @@ export class RemindersBoxComponent implements OnInit, OnDestroy {
       .pipe(
         map(payload => {
           this.show = payload.show;
+          payload.day ? this.day = payload.day : null;
           this.styleSearchList = payload.offsetX ? `left: ` + payload.offsetX + `px;` : ``;
           this.styleSearchList = payload.offsetY ? this.styleSearchList + `top: ` + payload.offsetY + `px;` : ``;
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+
+  onOpenReminderForm() {
+    this._RemindersBoxService.onOpenReminderForm(this.day);
   }
 
 }

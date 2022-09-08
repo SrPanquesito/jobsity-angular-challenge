@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-between items-center relative h-32 overflow-hidden">
+<div class="flex flex-col justify-center items-center relative h-24 overflow-hidden">
     <ng-container *ngIf="day.activeCell; else renderDisabledDay">
         <div class="cursor-pointer rounded-full" 
             [ngClass]="{'bg-paletteBlue': day.isCurrentDay, 'bg-white-to-gray': !day.isCurrentDay}"

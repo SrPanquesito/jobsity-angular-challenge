@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DialogService } from '@ngneat/dialog';
-import { FormReminderComponent } from '@containers/calendar/components/form-reminder/form-reminder.component';
 import { Day } from '@containers/calendar/interfaces/calendar.interface';
 import { RemindersBoxService } from '@shared/services/reminders-box.service';
 
@@ -21,18 +19,10 @@ export class UiCalendarDayComponent implements OnInit {
   @Input() day?: Day;
 
   constructor(
-    private _DialogService: DialogService,
     private _RemindersBoxService: RemindersBoxService,
   ) { }
 
   ngOnInit(): void {
-  }
-
-  onOpenReminderForm(day?: Day) {
-    this._DialogService.open(FormReminderComponent, {
-      data: { day },
-      width: '90vh'
-    });
   }
 
   onOpenReminderList(e: any) {
@@ -45,7 +35,7 @@ export class UiCalendarDayComponent implements OnInit {
     offsetX = maxRightOffset ? window.screen.width - 256 : offsetX;
     offsetX = maxLeftOffset ? 0 : offsetX;
 
-    this._RemindersBoxService.show(offsetX, offsetY);
+    this._RemindersBoxService.show(offsetX, offsetY, this.day);
   }
 
 }

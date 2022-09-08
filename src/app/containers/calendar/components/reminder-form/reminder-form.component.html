@@ -1,0 +1,108 @@
+<section class="flex flex-col justify-center gap-4 h-100vh lg:h-60vh">
+    <h1 class="lg:text-3xl text-center font-medium text-indigo-800">New Reminder</h1>
+    <div class="flex flex-col-reverse lg:flex-row justify-center">
+        <form class="flex flex-col justify-center items-center m-6 gap-6 lg:w-1/2" [formGroup]="form">
+            <div class="w-full">
+                <label for="description" class="text-sm lg:text-base px-1 text-gray-700">Description</label>
+                <input
+                    name="description"
+                    class="text-sm lg:text-base w-full rounded-lg border-2 placeholder-gray-500 border-gray-300 text-gray-700 p-2 mt-2"
+                    autocomplete="off"
+                    formControlName="text"
+                    type="text"
+                    placeholder="Ex. I need help with..."
+                    [ngClass]="applyInputClasses('text')"
+                    (keydown.enter)="keyEnter($event)"
+                />
+                <ng-container *ngIf="showErrors">
+                    <span *ngIf="text.hasError('required')" class="text-sm text-red-600 pt-2 pl-1">
+                        Description field is required.
+                    </span>
+                    <span *ngIf="text.hasError('maxlength')" class="text-sm text-red-600 pt-2 pl-1">
+                        Description must have maximum {{ text.errors?.maxlength?.requiredLength }} characters long.
+                    </span>
+                </ng-container>
+            </div>
+    
+            <div class="w-full">
+                <label for="city" class="text-sm lg:text-base px-1 text-gray-700">City</label>
+                <input
+                    name="city"
+                    list="cities"
+                    class="text-sm lg:text-base w-full rounded-lg border-2 placeholder-gray-500 border-gray-300 text-gray-700 p-2 mt-2"
+                    autocomplete="off"
+                    formControlName="city"
+                    placeholder="Ex. New York"
+                    type="text"
+                    [ngClass]="applyInputClasses('city')"
+                    (keydown.enter)="keyEnter($event)"
+                />
+                <datalist id="cities">
+                    <option *ngFor="let option of filteredOptions | async" [value]="option.name | firstLetterUppercase" (click)="onSelectedCity(option)">
+                        {{ option.name | firstLetterUppercase }} - {{ option.state }} ({{ option.country }})
+                    </option>
+                </datalist>
+                <ng-container *ngIf="showErrors">
+                    <span *ngIf="city.hasError('required')" class="text-sm text-red-600 pt-2 pl-1">
+                        City field is required.
+                    </span>
+                </ng-container>
+            </div>
+    
+            <div class="w-full">
+                <label for="date" class="text-sm lg:text-base px-1 text-gray-700">Date</label>
+                <input
+                    name="date"
+                    class="text-sm lg:text-base w-full rounded-lg border-2 placeholder-gray-500 border-gray-300 text-gray-700 p-2 mt-2"
+                    autocomplete="off"
+                    formControlName="date"
+                    type="date"
+                    [ngClass]="applyInputClasses('date')"
+                    (keydown.enter)="keyEnter($event)"
+                />
+                <ng-container *ngIf="showErrors">
+                    <span *ngIf="date.hasError('required')" class="text-sm text-red-600 pt-2 pl-1">
+                        Date field is required.
+                    </span>
+                </ng-container>
+            </div>
+    
+            <div class="w-full">
+                <label for="time" class="text-sm lg:text-base px-1 text-gray-700">Time</label>
+                <input
+                    name="time"
+                    class="text-sm lg:text-base w-full rounded-lg border-2 placeholder-gray-500 border-gray-300 text-gray-700 p-2 mt-2"
+                    autocomplete="off"
+                    formControlName="time"
+                    type="time"
+                    [ngClass]="applyInputClasses('time')"
+                    (keydown.enter)="keyEnter($event)"
+                />
+                <ng-container *ngIf="showErrors">
+                    <span *ngIf="time.hasError('required')" class="text-sm text-red-600 pt-2 pl-1">
+                        Time field is required.
+                    </span>
+                </ng-container>
+            </div>
+            
+            <button class="text-sm lg:text-base py-2 px-8 mt-8 rounded-lg shadow-lg transition duration-200 ease-in-out border border-paletteBlue-dark bg-paletteBlue-light hover:bg-paletteBlue-dark" type="submit" (click)="onSubmit()">Add Reminder</button>
+        </form>
+        <div class="flex flex-col justify-center items-center lg:w-1/2 relative">
+            <ng-container *ngIf="_ref?.data?.weather as weather; else renderNoInfoAvailable">
+                <div class="absolute top-2 right-2">
+                    <div class="flex flex-row gap-2 text-xl">
+                        <span class="cursor-pointer" [ngClass]="{'text-gray-500': !temperatureInCelsius}" (click)="temperatureInCelsius = true">C</span>
+                        <span>|</span>
+                        <span class="cursor-pointer" [ngClass]="{'text-gray-500': temperatureInCelsius}" (click)="temperatureInCelsius = false">F</span>
+                    </div>
+                </div>
+                <img [src]="'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png'" alt="">
+                <h1 class="text-xl font-bold"> {{ temperatureInCelsius ? (weather.temp.day | kelvinToCelsius) : (weather.temp.day | kelvinToFahrenheit) }}°{{ temperatureInCelsius ? 'C' : 'F' }}</h1>
+                <p> {{ weather.weather[0].description | firstLetterUppercase }} </p>
+            </ng-container>
+            <ng-template #renderNoInfoAvailable>
+                <span class="lg:text-xl text-gray-500">No weather info available yet...</span>
+            </ng-template>
+        </div>
+    </div>
+</section>
