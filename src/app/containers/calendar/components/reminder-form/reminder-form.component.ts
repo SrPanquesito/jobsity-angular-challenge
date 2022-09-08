@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { DialogRef } from '@ngneat/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Reminder, City, Weather, Day } from '@containers/calendar/interfaces/calendar.interface';
+import { Reminder, City, Weather, Day, Color } from '@containers/calendar/interfaces/calendar.interface';
 import { AppService } from 'src/app/app.service';
 import { Observable } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
@@ -32,7 +32,7 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
   get time() { return this.form.get('time') }
   get color() { return this.form.get('color') }
 
-  public colorOptions = ['red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
+  public colorOptions: Array<Color> = ['red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
 
   public temperatureInCelsius = true;
 
@@ -114,8 +114,8 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
         time: this.time.value,
         color: this.color.value,
       };
-      console.log(reminder)
       this._CalendarFacadeService.createReminder(reminder);
+      this._ref.close();
     }
   }
 

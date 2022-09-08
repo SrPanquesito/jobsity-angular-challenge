@@ -111,7 +111,7 @@
                 </div>
                 <img [src]="'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png'" alt="">
                 <h1 class="lg:text-xl font-bold"> {{ temperatureInCelsius ? (weather.temp?.day || weather.temp | kelvinToCelsius) : (weather.temp?.day || weather.temp | kelvinToFahrenheit) }}°{{ temperatureInCelsius ? 'C' : 'F' }}</h1>
-                <span class="text-sm lg:text-base italic text-gray-500">{{ weather.timezone }}</span>
+                <span class="text-sm lg:text-base italic text-gray-500">{{ weather.weather[0].main }}</span>
                 <p class="text-sm lg:text-base"> {{ weather.weather[0].description | firstLetterUppercase }} </p>
             </ng-container>
             <ng-template #renderNoInfoAvailable>

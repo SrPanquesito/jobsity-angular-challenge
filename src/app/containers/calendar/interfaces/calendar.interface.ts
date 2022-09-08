@@ -63,6 +63,8 @@ export class Day {
 
     activeCell?: boolean;
     isCurrentDay?: boolean;
-    reminder?: Reminder;
+    reminders?: Array<Reminder>;
     weather?: Weather;
 }
+
+export type Color = 'red' | 'orange' | 'yellow' | 'green' | 'teal' | 'blue' | 'indigo' | 'purple' | 'pink';

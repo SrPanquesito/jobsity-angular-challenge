@@ -13,6 +13,7 @@ export class CalendarFacadeService {
     private _CalendarApiService: CalendarApiService,
     private _CalendarStateService: CalendarStateService,
   ) {
+    this.days = this.getCurrentMonthDays()
     this.getRemindersFromLocalStorage();
   }
 
@@ -26,16 +27,42 @@ export class CalendarFacadeService {
   set days(val: Array<Day> | []) {
     this.days$.next(val);
   }
+  private addReminderToDay(reminder: Reminder) {
+    let reminderDate: any = new Date(reminder.dateTime);
+    reminderDate = { year: reminderDate.getFullYear(), monthIndex: reminderDate.getMonth(), number: reminderDate.getDate()+1 };
+    this.days$.getValue().forEach((day: Day) => {
+      if (reminderDate.year === day.year && reminderDate.monthIndex === day.monthIndex && reminderDate.number === day.number) {
+        (day.reminders?.length > 0) ? day.reminders.push(reminder) : day.reminders = [reminder];
+        this.days = [...this.days];
+      }
+    });
+  }
+  private addRemindersToDays() {
+    this.days$.getValue().forEach((day: Day) => {
+      this.reminders.forEach((reminder: Reminder) => {
+        let reminderDate: any = new Date(reminder.dateTime);
+        if (reminderDate.getFullYear() === day.year && reminderDate.getMonth() === day.monthIndex && reminderDate.getDate()+1 === day.number) {
+          (day.reminders?.length > 0) ? day.reminders.push(reminder) : day.reminders = [reminder];
+        }
+      })
+    });
+    this.days = [...this.days];
+  }
 
   getMonthsByName(): Array<string> {
     return new Array(12).fill(null).map((e, index) => this._CalendarStateService.getMonthName(index+1));
   }
 
-  getCurrentMonthDays() {
+  private getCurrentMonthDays() {
     return this._CalendarStateService.getCurrentMonthDays();
   }
 
-  getMonthDays(monthIndex: number, year: number) {
+  calculateMonthDays(monthIndex: number, year: number) {
+    this.days = this.getMonthDays(monthIndex, year);
+    this.addRemindersToDays();
+  }
+
+  private getMonthDays(monthIndex: number, year: number) {
     return this._CalendarStateService.getMonthDays(monthIndex, year);
   }
 
@@ -53,6 +80,7 @@ export class CalendarFacadeService {
   createReminder(data: Reminder): Reminder {
     this.reminders.push(data);
     localStorage.setItem('reminders', JSON.stringify(this.reminders));
+    this.addReminderToDay(data);
     return data;
   }
 
@@ -73,6 +101,8 @@ export class CalendarFacadeService {
   private getRemindersFromLocalStorage() {
     if (!localStorage.getItem('reminders')) return
     this.reminders = JSON.parse(localStorage.getItem('reminders'));
+    console.warn('reminders from LocalStorage: ', this.reminders);
+    this.addRemindersToDays();
   }
 
   /* ******************** Weather ******************** */
