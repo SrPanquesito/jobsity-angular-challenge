@@ -1,5 +1,5 @@
 <section class="flex flex-col lg:flex-row w-full h-full">
-    <aside class="flex flex-row lg:flex-col justify-center items-center gap-16 w-full lg:w-4/12 bg-paletteBlue-light lg:pr-16 rounded-right-border-desktop">
+    <aside class="flex flex-row lg:flex-col justify-center items-center gap-6 lg:gap-20 w-full lg:w-4/12 bg-paletteBlue-light lg:pr-16 rounded-right-border-desktop">
         <ui-year-picker
             [years]="years"
             [selectedYear]="selectedYear"
@@ -12,9 +12,11 @@
         ></ui-month-picker>
     </aside>
     <section class="flex justify-start items-center w-full lg:w-8/12 z-10 bg-white">
-        <ui-calendar
-            [days]="days"
-            (onSelectedDay)="onSelectedDay($event)"
-        ></ui-calendar>
+        <ng-container *ngIf="(daysObs$ | async) as days">
+            <ui-calendar
+                [days]="days"
+                (onSelectedDay)="onSelectedDay($event)"
+            ></ui-calendar>
+        </ng-container>
     </section>
 </section>

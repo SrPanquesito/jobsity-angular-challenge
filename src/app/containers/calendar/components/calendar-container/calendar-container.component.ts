@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CalendarFacadeService } from '@containers/calendar/services/calendar-facade.service';
-import { Day } from '@containers/calendar/interfaces/calendar.interface';
 
 @Component({
   selector: 'calendar-container',
@@ -9,12 +8,13 @@ import { Day } from '@containers/calendar/interfaces/calendar.interface';
   `]
 })
 export class CalendarContainerComponent implements OnInit {
-  public days: Day[];
   public months: string[];
   public years: number[];
 
   public selectedMonthIndex: number;
   public selectedYear: number;
+
+  public daysObs$ = this._CalendarFacadeService.daysObs$;
 
   constructor(
     public _CalendarFacadeService: CalendarFacadeService,
@@ -22,8 +22,8 @@ export class CalendarContainerComponent implements OnInit {
 
   ngOnInit(): void {
     /* For calendar UI */
-    this.days = this._CalendarFacadeService.getCurrentMonthDays()
-    console.log(this.days);
+    this._CalendarFacadeService.days = this._CalendarFacadeService.getCurrentMonthDays()
+    console.log(this._CalendarFacadeService.days);
 
     /* For year and month pickers */
     this.years = [2018,2019,2020,2021,2022,2023,2024,2025,2026];
@@ -35,12 +35,12 @@ export class CalendarContainerComponent implements OnInit {
 
   onYearChanged(e: any) {
     this.selectedYear = e;
-    this.days = this._CalendarFacadeService.getMonthDays(this.selectedMonthIndex, e)
+    this._CalendarFacadeService.days = this._CalendarFacadeService.getMonthDays(this.selectedMonthIndex, e)
   }
 
   onMonthChanged(e: string) {
     this.selectedMonthIndex = this._CalendarFacadeService.getMonthIndex(e)-1;
-    this.days = this._CalendarFacadeService.getMonthDays(this.selectedMonthIndex, this.selectedYear)
+    this._CalendarFacadeService.days = this._CalendarFacadeService.getMonthDays(this.selectedMonthIndex, this.selectedYear)
   }
 
   onSelectedDay(e: any) {

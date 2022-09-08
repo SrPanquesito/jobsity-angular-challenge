@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Reminder } from '../interfaces/calendar.interface';
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Day, Reminder } from '../interfaces/calendar.interface';
 import { CalendarApiService } from './api/calendar-api.service';
 import { CalendarStateService } from './state/calendar-state.service';
 
@@ -8,13 +8,22 @@ import { CalendarStateService } from './state/calendar-state.service';
   providedIn: 'root'
 })
 export class CalendarFacadeService {
-
   constructor(
     private _CalendarApiService: CalendarApiService,
     private _CalendarStateService: CalendarStateService,
   ) { }
 
   /* ******************** Calendar ******************** */
+  private days$: BehaviorSubject<Array<Day> | []> = new BehaviorSubject<Array<Day> | []>([]);
+  public daysObs$ = this.days$.asObservable();
+
+  get days(): Array<Day> | [] {
+    return this.days$.getValue();
+  }
+  set days(val: Array<Day> | []) {
+    this.days$.next(val);
+  }
+
   getMonthsByName(): Array<string> {
     return new Array(12).fill(null).map((e, index) => this._CalendarStateService.getMonthName(index+1));
   }
