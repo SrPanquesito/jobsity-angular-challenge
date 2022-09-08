@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { DialogRef } from '@ngneat/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Reminder, City, Weather } from '@containers/calendar/interfaces/calendar.interface';
+import { Reminder, City, Weather, Day } from '@containers/calendar/interfaces/calendar.interface';
 import { AppService } from 'src/app/app.service';
 import { Observable } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
+import { CalendarFacadeService } from '@containers/calendar/services/calendar-facade.service';
 
 @Component({
   selector: 'app-reminder-form',
@@ -12,12 +13,13 @@ import { debounceTime, map, startWith } from 'rxjs/operators';
   styles: [
   ]
 })
-export class ReminderFormComponent implements OnInit {
+export class ReminderFormComponent implements OnInit, OnDestroy {
   public form: FormGroup = new FormGroup({
     'text': new FormControl('', [Validators.required, Validators.maxLength(30)]),
     'city': new FormControl('', [Validators.required]),
     'date': new FormControl('', [Validators.required]),
     'time': new FormControl('', [Validators.required]),
+    'color': new FormControl('red', [Validators.required]),
   });
 
   private cityAutocompleteOptions: Array<City> = [];
@@ -28,19 +30,26 @@ export class ReminderFormComponent implements OnInit {
   get city() { return this.form.get('city') }
   get date() { return this.form.get('date') }
   get time() { return this.form.get('time') }
+  get color() { return this.form.get('color') }
+
+  public colorOptions = ['red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
 
   public temperatureInCelsius = true;
 
   public showErrors = false;
+  private previousCity?: string;
+  
+  public weatherObs$ = this._CalendarFacadeService.weatherObs$;
 
   constructor(
     public _ref: DialogRef,
     private _AppService: AppService,
+    private _CalendarFacadeService: CalendarFacadeService,
   ) { }
 
   ngOnInit(): void {
+    // Autocomplete cities from citiesJson on app.worker
     this.cityAutocompleteOptions = this._AppService.cities;
-
     if (this.cityAutocompleteOptions) {
       this.filteredOptions = this.city.valueChanges
       .pipe(
@@ -50,18 +59,16 @@ export class ReminderFormComponent implements OnInit {
       );
     }
 
-    this._ref?.data.dateTime ? this.date.setValue(this.formatDate(this._ref.data.dateTime)) : null;
+    // Set selected date into date input
+    if (this._ref?.data?.day) { this.date.setValue(this.formatDate(this._ref.data.day)) }
   }
 
-  onSelectedCity(e: City) {
-    this.city.setValue(e.name.charAt(0).toUpperCase() + e.name.slice(1));
-
-    console.log(e);
-    // Fetch weather
+  ngOnDestroy(): void {
+    this._CalendarFacadeService.weather = null; 
   }
 
-  formatDate(date: Date) {
-    return date.toISOString().split('T')[0]
+  private formatDate(day: Partial<Day>) {
+    return new Date(day.year, day.monthIndex, day.number).toISOString().split('T')[0];
   }
 
   private _filter(value: string): Array<City> {
@@ -69,14 +76,47 @@ export class ReminderFormComponent implements OnInit {
     return this.cityAutocompleteOptions.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
+  onSelectedCity(e: City) {
+    this.city.setValue(e.name.charAt(0).toUpperCase() + e.name.slice(1));
+    this.fetchWeather();
+  }
+
   keyEnter(e: any) {
     e.preventDefault();
     this.onSubmit();
   }
 
+  keyEnterGetWeather(e: any) {
+    e.preventDefault();
+    this.fetchWeather();
+  }
+
+  private fetchWeather() {
+    if (!this.previousCity) {
+      this.previousCity = this.city.value;
+      this._CalendarFacadeService.getWeatherInformation(this.city.value)
+    }
+    else if (this.previousCity !== this.city.value) {
+      this.previousCity = this.city.value;
+      this._CalendarFacadeService.getWeatherInformation(this.city.value)
+    }
+  }
+
   onSubmit() {
     this.showErrors = true;
-    console.warn(this.form.valid);
+    if (this.form.valid) {
+      let date = this.date.value.split('-');
+      date = this.formatDate({year: Number(date[0]), monthIndex: Number(date[1])-1, number: Number(date[2])});
+      let reminder: Reminder = {
+        text: this.text.value,
+        city: this.city.value,
+        dateTime: new Date(date),
+        time: this.time.value,
+        color: this.color.value,
+      };
+      console.log(reminder)
+      this._CalendarFacadeService.createReminder(reminder);
+    }
   }
 
   applyInputClasses(fieldName: string) {

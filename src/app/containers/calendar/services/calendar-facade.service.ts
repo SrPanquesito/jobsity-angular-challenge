@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { Day, Reminder } from '../interfaces/calendar.interface';
+import { Day, Reminder, Weather } from '../interfaces/calendar.interface';
 import { CalendarApiService } from './api/calendar-api.service';
 import { CalendarStateService } from './state/calendar-state.service';
+import { flatMap, catchError, map, first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ export class CalendarFacadeService {
   constructor(
     private _CalendarApiService: CalendarApiService,
     private _CalendarStateService: CalendarStateService,
-  ) { }
+  ) {
+    this.getRemindersFromLocalStorage();
+  }
 
   /* ******************** Calendar ******************** */
   private days$: BehaviorSubject<Array<Day> | []> = new BehaviorSubject<Array<Day> | []>([]);
@@ -48,6 +51,8 @@ export class CalendarFacadeService {
   private reminders: Reminder[] = [];
 
   createReminder(data: Reminder): Reminder {
+    this.reminders.push(data);
+    localStorage.setItem('reminders', JSON.stringify(this.reminders));
     return data;
   }
 
@@ -63,5 +68,51 @@ export class CalendarFacadeService {
   deleteReminder(reminderId: string): boolean {
     console.log(reminderId);
     return true;
+  }
+
+  private getRemindersFromLocalStorage() {
+    if (!localStorage.getItem('reminders')) return
+    this.reminders = JSON.parse(localStorage.getItem('reminders'));
+  }
+
+  /* ******************** Weather ******************** */
+  private weather$: BehaviorSubject<Weather | null> = new BehaviorSubject<Weather | null>(null);
+  public weatherObs$: Observable<Weather | null> = this.weather$.asObservable();
+
+  get weather(): Weather | null {
+    return this.weather$.getValue();
+  }
+  set weather(val: Weather | null) {
+    this.weather$.next(val);
+  }
+
+  private weatherForecast$: BehaviorSubject<Array<Weather> | []> = new BehaviorSubject<Array<Weather> | []>([]);
+  public weatherForecastObs$: Observable<Array<Weather> | []> = this.weatherForecast$.asObservable();
+
+  get weatherForecast(): Array<Weather> | [] {
+    return this.weatherForecast$.getValue();
+  }
+  set weatherForecast(val: Array<Weather> | []) {
+    this.weatherForecast$.next(val);
+  }
+
+  getWeatherInformation(city: string) {
+    this._CalendarApiService.getOpenWeatherLatLon({city})
+    .pipe(
+      flatMap((res: Array<any>) => this._CalendarApiService.getOpenWeatherForecast({lat: res[0].lat, lon: res[0].lon})),
+      first(),
+      map((res: { current: Weather, daily: Array<Weather>, timezone: string }) => {
+        console.warn(res)
+        res.current.timezone = res.timezone;
+        this.weather$.next(res.current);
+        return res
+      }),
+      catchError(err => {
+        console.log('err')
+        this.weather$.next(null);
+        return err
+      })
+    )
+    .subscribe();
   }
 }

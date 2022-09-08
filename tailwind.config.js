@@ -10,8 +10,13 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      borderWidth: {
+        '6': '6px'
+      },
       height: {
         '60vh': '60vh',
+        '65vh': '65vh',
+        '70vh': '70vh',
         '100vh': '100vh',
       },
       fontFamily: {

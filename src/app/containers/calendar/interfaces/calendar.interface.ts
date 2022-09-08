@@ -1,15 +1,18 @@
 export interface City {
     country: string;
     name: string;
-    lat: string | number;
-    lon: string | number;
+    state?: string;
+    lat?: string | number;
+    lon?: string | number;
 }
 
 export interface Reminder {
     text: string;
+    city: string | City;
     dateTime: Date;
+    time: string;
     color: string;
-    city?: string | City;
+    weather?: Weather;
 }
 
 export interface Weather {
@@ -48,6 +51,7 @@ export interface Weather {
     rain?: number,
     snow?: number,
     uvi?: number,
+    timezone?: string,
 }
 
 export class Day {

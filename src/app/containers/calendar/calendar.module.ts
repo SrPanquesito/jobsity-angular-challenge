@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 
 import { CalendarRoutingModule } from './calendar-routing.module';
@@ -27,6 +27,7 @@ import { UiCalendarDayComponent } from './ui/ui-calendar-day/ui-calendar-day.com
     CalendarRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    FormsModule,
   ]
 })
 export class CalendarModule { }
