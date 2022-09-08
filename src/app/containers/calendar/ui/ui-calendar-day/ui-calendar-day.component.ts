@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { Day, Color } from '@containers/calendar/interfaces/calendar.interface';
-import { RemindersBoxService } from '@shared/services/reminders-box.service';
+import { RemindersBoxService } from '@containers/calendar/services/reminders-box.service';
 
 @Component({
   selector: 'ui-calendar-day',

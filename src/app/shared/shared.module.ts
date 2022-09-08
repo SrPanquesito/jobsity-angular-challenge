@@ -8,7 +8,6 @@ import { CarouselComponent, CarouselItemElementDirective } from './components/ca
 import { CarouselItemDirective } from './components/carousel/carousel-item.directive';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faCaretLeft, faCaretRight, fas } from '@fortawesome/free-solid-svg-icons';
-import { RemindersBoxComponent } from './components/reminders-box/reminders-box.component';
 
 const SHARED = [
   FirstLetterUppercasePipe,
@@ -18,7 +17,6 @@ const SHARED = [
   CarouselItemDirective,
   CarouselComponent,
   CarouselItemElementDirective,
-  RemindersBoxComponent,
 ];
 
 @NgModule({

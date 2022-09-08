@@ -11,7 +11,7 @@ export interface Reminder {
     city: string | City;
     dateTime: Date;
     time: string;
-    color: string;
+    color: Color;
     weather?: Weather;
 }
 

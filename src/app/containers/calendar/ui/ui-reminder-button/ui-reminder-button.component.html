@@ -1,0 +1,4 @@
+<button type="button" class="flex flex-col w-full text-left shadow rounded-lg border px-4 py-2" [ngClass]="applyReminderColor(reminder.color)">
+    <span class="text-xs lg:text-sm" [ngClass]="{'text-gray-100': reminder.color !== 'yellow', 'text-gray-800': reminder.color === 'yellow'}">{{ reminder.text }}</span>
+    <span class="text-xs" [ngClass]="{'text-gray-200': reminder.color !== 'yellow', 'text-gray-700': reminder.color === 'yellow'}">{{ reminder.time }}</span>
+</button>

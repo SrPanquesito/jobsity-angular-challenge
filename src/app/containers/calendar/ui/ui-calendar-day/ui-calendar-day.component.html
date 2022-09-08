@@ -7,9 +7,9 @@
             <small class="lg:text-2xl font-stem font-medium select-none p-4" [ngClass]="{'text-gray-100': day.isCurrentDay,'text-gray-700': !day.isCurrentDay}">{{ day.number }}</small>
         </div>
         <ng-container *ngIf="day.reminders?.length > 0">
-            <div class="absolute bottom-0 flex gap-1 justify-center items-center max-w-xs overflow-y-hidden cursor-pointer">
+            <div class="absolute bottom-0 flex gap-1 justify-center items-center max-w-xs overflow-hidden cursor-pointer" [ngClass]="{'scroll-fade-white-x': day.reminders.length > 3}">
                 <ng-container *ngFor="let reminder of day.reminders">
-                    <div class="w-3 h-3 rounded-full bg-red-500" [ngClass]="applyReminderColor(reminder.color)"></div>
+                    <div class="w-3 h-3 rounded-full" [ngClass]="applyReminderColor(reminder.color)"></div>
                 </ng-container>
             </div>
         </ng-container>
