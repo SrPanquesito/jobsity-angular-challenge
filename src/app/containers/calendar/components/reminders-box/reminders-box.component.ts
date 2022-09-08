@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { Day } from '@containers/calendar/interfaces/calendar.interface';
+import { Day, Reminder } from '@containers/calendar/interfaces/calendar.interface';
 import { RemindersBoxService } from '@containers/calendar/services/reminders-box.service';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -62,8 +62,8 @@ export class RemindersBoxComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  onOpenReminderForm() {
-    this._RemindersBoxService.onOpenReminderForm(this.day);
+  onOpenReminderForm(day: Day, reminder?: Reminder) {
+    this._RemindersBoxService.onOpenReminderForm(day, reminder);
   }
 
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Day } from '@containers/calendar/interfaces/calendar.interface';
+import { Day, Reminder } from '@containers/calendar/interfaces/calendar.interface';
 import { BehaviorSubject } from 'rxjs';
 import { DialogService } from '@ngneat/dialog';
 import { ReminderFormComponent } from '@containers/calendar/components/reminder-form/reminder-form.component';
@@ -23,9 +23,9 @@ export class RemindersBoxService {
     this.state$.next({show: false});
   }
 
-  onOpenReminderForm(day?: Day) {
+  onOpenReminderForm(day?: Day, reminder?: Reminder) {
     this._DialogService.open(ReminderFormComponent, {
-      data: { day },
+      data: { day, reminder },
       width: '90vh'
     });
   }
