@@ -7,6 +7,7 @@ export interface City {
 }
 
 export interface Reminder {
+    originalCreationDate?: Date;
     text: string;
     city: string | City;
     dateTime: Date;

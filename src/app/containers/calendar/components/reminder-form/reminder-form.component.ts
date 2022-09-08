@@ -61,10 +61,18 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
 
     // Set selected date into date input
     if (this._ref?.data?.day) { this.date.setValue(this.formatDate(this._ref.data.day)) }
+    if (this._ref?.data?.reminder) { this.fillFields(this._ref.data.reminder) }
   }
 
   ngOnDestroy(): void {
     this._CalendarFacadeService.weather = null; 
+  }
+
+  private fillFields(reminder: Reminder) {
+    this.text.setValue(reminder.text);
+    this.city.setValue(reminder.city);
+    this.time.setValue(reminder.time);
+    this.color.setValue(reminder.color);
   }
 
   private formatDate(day: Partial<Day>) {
@@ -114,7 +122,16 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
         time: this.time.value,
         color: this.color.value,
       };
-      this._CalendarFacadeService.createReminder(reminder);
+
+      if (this._ref?.data?.reminder) {
+        reminder.originalCreationDate = this._ref.data.reminder.originalCreationDate
+        let isEdited = this._CalendarFacadeService.editReminder(reminder);
+        console.log('reminder edited was ', isEdited);
+      }
+      else {
+        reminder.originalCreationDate = new Date()
+        this._CalendarFacadeService.createReminder(reminder);
+      }
       this._ref.close();
     }
   }

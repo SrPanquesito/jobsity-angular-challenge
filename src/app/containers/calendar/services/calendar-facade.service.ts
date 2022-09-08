@@ -48,6 +48,19 @@ export class CalendarFacadeService {
     });
     this.days = [...this.days];
   }
+  private editedReminderToDay(editedReminder: Reminder) {
+    let reminderDate: any = new Date(editedReminder.dateTime);
+    reminderDate = { year: reminderDate.getFullYear(), monthIndex: reminderDate.getMonth(), number: reminderDate.getDate()+1 };
+    this.days$.getValue().forEach((day: Day) => {
+      if (reminderDate.year === day.year && reminderDate.monthIndex === day.monthIndex && reminderDate.number === day.number) {
+        day.reminders.forEach((reminder: Reminder) => {
+          if (reminder.originalCreationDate === editedReminder.originalCreationDate) {
+            reminder = editedReminder;
+          }
+        })
+      }
+    });
+  }
 
   getMonthsByName(): Array<string> {
     return new Array(12).fill(null).map((e, index) => this._CalendarStateService.getMonthName(index+1));
@@ -84,13 +97,19 @@ export class CalendarFacadeService {
     return data;
   }
 
-  editReminder(data: Reminder): Reminder {
-    return data;
-  }
+  editReminder(data: Reminder): boolean {
+    let success = false;
+    for (let i = 0; i < this.reminders.length; i++) {
+      if (data.originalCreationDate === this.reminders[i].originalCreationDate) {
+        success = true;
+        this.reminders[i] = data;
+        localStorage.setItem('reminders', JSON.stringify(this.reminders));
+        // this.editedReminderToDay(data);
+        break
+      }
+    }
 
-  listReminders(date: Date): Observable<Reminder[]> {
-    console.log(date);
-    return of(this.reminders);
+    return success;
   }
 
   deleteReminder(reminderId: string): boolean {
