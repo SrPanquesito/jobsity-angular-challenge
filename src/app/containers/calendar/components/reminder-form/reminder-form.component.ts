@@ -92,11 +92,11 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
   }
 
   private fetchWeather() {
-    if (!this.previousCity) {
+    if (!this.previousCity && this.city.value !== '') {
       this.previousCity = this.city.value;
       this._CalendarFacadeService.getWeatherInformation(this.city.value)
     }
-    else if (this.previousCity !== this.city.value) {
+    else if (this.previousCity !== this.city.value && this.city.value !== '') {
       this.previousCity = this.city.value;
       this._CalendarFacadeService.getWeatherInformation(this.city.value)
     }

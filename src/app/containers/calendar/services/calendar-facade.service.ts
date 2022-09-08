@@ -116,6 +116,7 @@ export class CalendarFacadeService {
     this.weather$.next(val);
   }
 
+  // If I have time, calculate forecast for the current week
   private weatherForecast$: BehaviorSubject<Array<Weather> | []> = new BehaviorSubject<Array<Weather> | []>([]);
   public weatherForecastObs$: Observable<Array<Weather> | []> = this.weatherForecast$.asObservable();
 

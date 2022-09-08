@@ -27,16 +27,18 @@ export class UiCalendarDayComponent implements OnInit {
   }
 
   onOpenReminderList(e: any) {
-    let offsetX = this.anchorForReminderList.nativeElement.getBoundingClientRect().left + window.scrollX - 100;
-    let offsetY = this.anchorForReminderList.nativeElement.getBoundingClientRect().top + window.scrollY + 60;
-
-    let maxRightOffset = (offsetX + 256) > window.screen.width;
-    let maxLeftOffset = offsetX < 0;
-
-    offsetX = maxRightOffset ? window.screen.width - 256 : offsetX;
-    offsetX = maxLeftOffset ? 0 : offsetX;
-
-    this._RemindersBoxService.show(offsetX, offsetY, this.day);
+    if (this.day.activeCell) {
+      let offsetX = this.anchorForReminderList.nativeElement.getBoundingClientRect().left + window.scrollX - 100;
+      let offsetY = this.anchorForReminderList.nativeElement.getBoundingClientRect().top + window.scrollY + 60;
+  
+      let maxRightOffset = (offsetX + 256) > window.screen.width;
+      let maxLeftOffset = offsetX < 0;
+  
+      offsetX = maxRightOffset ? window.screen.width - 256 : offsetX;
+      offsetX = maxLeftOffset ? 0 : offsetX;
+  
+      this._RemindersBoxService.show(offsetX, offsetY, this.day);
+    }
   }
 
   applyReminderColor(color: Color) {
