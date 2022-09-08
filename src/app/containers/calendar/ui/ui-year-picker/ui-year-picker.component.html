@@ -1,8 +1,8 @@
 <carousel (onChangedIndex)="onChangedIndex($event)" [index]="currentYearIndex()">
     <ng-container *ngFor="let item of years;">
         <ng-container *carouselItem>
-            <div class="flex justify-center w-32 cursor-pointer">
-                <h2 class="text-4xl font-medium select-none"> {{ item }} </h2>
+            <div class="flex justify-center w-12 lg:w-32 cursor-pointer">
+                <h2 class="lg:text-4xl font-medium select-none"> {{ item }} </h2>
             </div>
         </ng-container>
     </ng-container>

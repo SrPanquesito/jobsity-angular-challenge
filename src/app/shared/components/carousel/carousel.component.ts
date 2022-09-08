@@ -12,36 +12,7 @@ export class CarouselItemElementDirective {
 @Component({
   selector: 'carousel',
   templateUrl: './carousel.component.html',
-  styles: [`
-    .material-icons { font-size: 40px !important; }
-    .scroll-fade {
-      position: relative;
-      display: flex;
-      align-content: center;
-    }
-    .scroll-fade:before {
-      content  : "";
-      position : absolute;
-      z-index  : 10;
-      top   : 0;
-      left     : 0;
-      pointer-events   : none;
-      background-image : linear-gradient(to top, rgba(255,255,255, 0), #f2f2ff 90%);
-      width    : 100%;
-      height   : 6em;
-    }
-    .scroll-fade:after {
-      content  : "";
-      position : absolute;
-      z-index  : 10;
-      bottom   : 0;
-      left     : 0;
-      pointer-events   : none;
-      background-image : linear-gradient(to bottom, rgba(255,255,255, 0), #f2f2ff 90%);
-      width    : 100%;
-      height   : 6em;
-    }
-  `]
+  styles: []
 })
 export class CarouselComponent implements OnInit, AfterViewInit {
   @Input() vertical: boolean = false;
