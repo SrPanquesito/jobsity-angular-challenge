@@ -2,7 +2,7 @@
     <ng-container *ngIf="day.activeCell; else renderDisabledDay">
         <div class="cursor-pointer rounded-full" 
             [ngClass]="{'bg-paletteBlue': day.isCurrentDay, 'bg-white-to-gray': !day.isCurrentDay}"
-            (click)="onOpenReminderForm()">
+            (click)="onOpenReminderList($event)">
             <small class="lg:text-2xl font-stem font-medium select-none p-4" [ngClass]="{'text-gray-100': day.isCurrentDay,'text-gray-700': !day.isCurrentDay}">{{ day.number }}</small>
         </div>
     </ng-container>
