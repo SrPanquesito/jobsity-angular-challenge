@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CalendarFacadeService } from '@containers/calendar/services/calendar-facade.service';
 import { map } from 'rxjs/operators';
+import { RemindersBoxService } from '@containers/calendar/services/reminders-box.service';
 
 @Component({
   selector: 'calendar-container',
@@ -19,6 +20,7 @@ export class CalendarContainerComponent implements OnInit {
 
   constructor(
     public _CalendarFacadeService: CalendarFacadeService,
+    private _RemindersBoxService: RemindersBoxService,
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +46,11 @@ export class CalendarContainerComponent implements OnInit {
   }
 
   onSelectedDay(e: any) {
+  }
+
+  onOpenReminderForm() {
+    let day = this._CalendarFacadeService.getCurrentDay();
+    this._RemindersBoxService.onOpenReminderForm(day);
   }
 
 }

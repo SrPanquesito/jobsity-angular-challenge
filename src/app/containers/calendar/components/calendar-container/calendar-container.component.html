@@ -22,4 +22,11 @@
             ></ui-calendar>
         </ng-container>
     </section>
+    <section class="hidden lg:block">
+        <ui-reminder-add-button
+            size="lg"
+            class="absolute top-8 right-8 z-50"
+            (click)="onOpenReminderForm()"
+        ></ui-reminder-add-button>
+    </section>
 </section>

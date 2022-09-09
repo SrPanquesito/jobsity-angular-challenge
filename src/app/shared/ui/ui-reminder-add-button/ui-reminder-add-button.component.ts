@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { faTag, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -8,6 +8,8 @@ import { faTag, faPlus } from '@fortawesome/free-solid-svg-icons';
   ]
 })
 export class UiReminderAddButtonComponent implements OnInit {
+  @Input() size?: string;
+  
   faTag = faTag;
   faPlus = faPlus;
 
