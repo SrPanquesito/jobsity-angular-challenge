@@ -98,10 +98,18 @@
                 </ng-container>
             </div>
             
-            <button class="text-sm lg:text-base py-2 px-8 mt-8 rounded-lg shadow-lg transition duration-200 ease-in-out border border-paletteBlue-dark bg-paletteBlue-light hover:bg-paletteBlue-dark"
-                type="submit"
-                (click)="onSubmit()"
-            >{{ _ref?.data?.reminder ? 'Save' : 'Add Reminder' }}</button>
+            <div class="flex gap-4">
+                <ng-container *ngIf="_ref?.data?.reminder">
+                    <button class="text-sm lg:text-base py-2 px-8 mt-8 rounded-lg shadow-lg transition duration-200 ease-in-out border border-red-300 bg-red-200 hover:bg-red-300"
+                        type="button"
+                        (click)="onDelete()"
+                    >Delete</button>
+                </ng-container>
+                <button class="text-sm lg:text-base py-2 px-8 mt-8 rounded-lg shadow-lg transition duration-200 ease-in-out border border-paletteBlue-dark bg-paletteBlue-light hover:bg-paletteBlue-dark"
+                    type="submit"
+                    (click)="onSubmit()"
+                >{{ _ref?.data?.reminder ? 'Save' : 'Add Reminder' }}</button>
+            </div>
         </form>
         <div class="flex flex-col justify-center items-center lg:w-1/2 gap-3 relative">
             <ng-container *ngIf="(weatherObs$ | async) as weather; else renderNoInfoAvailable">

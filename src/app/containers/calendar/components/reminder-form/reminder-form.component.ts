@@ -135,6 +135,13 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  onDelete() {
+    if (this._ref?.data?.reminder) {
+      this._CalendarFacadeService.deleteReminder(this._ref.data.reminder);
+      this._ref.close();
+    }
+  }
+
   applyInputClasses(fieldName: string) {
     let classes;
     if (this.form.get(fieldName)?.valid) {

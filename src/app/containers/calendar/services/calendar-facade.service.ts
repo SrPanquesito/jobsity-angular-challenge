@@ -60,6 +60,20 @@ export class CalendarFacadeService {
       }
     });
   }
+  private deleteReminderInDay(reminder: Reminder) {
+    let reminderDate: any = new Date(reminder.dateTime);
+    reminderDate = { year: reminderDate.getFullYear(), monthIndex: reminderDate.getMonth(), number: reminderDate.getDate()+1 };
+    this.days$.getValue().forEach((day: Day) => {
+      if (reminderDate.year === day.year && reminderDate.monthIndex === day.monthIndex && reminderDate.number === day.number) {
+        for (let i = 0; i < day.reminders.length; i++) {
+          if (day.reminders[i].originalCreationDate === reminder.originalCreationDate) {
+            day.reminders.splice(i, 1);
+            break
+          }
+        }
+      }
+    });
+  }
 
   getMonthsByName(): Array<string> {
     return new Array(12).fill(null).map((e, index) => this._CalendarStateService.getMonthName(index+1));
@@ -96,23 +110,26 @@ export class CalendarFacadeService {
     return data;
   }
 
-  editReminder(data: Reminder): boolean {
-    let success = false;
+  editReminder(data: Reminder): Reminder {
     for (let i = 0; i < this.reminders.length; i++) {
       if (data.originalCreationDate === this.reminders[i].originalCreationDate) {
-        success = true;
         this.reminders[i] = data;
         localStorage.setItem('reminders', JSON.stringify(this.reminders));
         this.editedReminderToDay(data);
         break
       }
     }
-
-    return success;
+    return data;
   }
 
-  deleteReminder(reminderId: string): boolean {
-    console.log(reminderId);
+  deleteReminder(data: Reminder): boolean {
+    for (let i = 0; i < this.reminders.length; i++) {
+      if (data.originalCreationDate === this.reminders[i].originalCreationDate) {
+        this.reminders.splice(i, 1);
+        localStorage.setItem('reminders', JSON.stringify(this.reminders));
+        this.deleteReminderInDay(data);
+      }
+    }
     return true;
   }
 
