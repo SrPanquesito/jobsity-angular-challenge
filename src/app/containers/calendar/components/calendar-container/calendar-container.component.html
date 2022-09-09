@@ -1,15 +1,18 @@
 <section class="flex flex-col lg:flex-row w-full h-full">
-    <aside class="flex flex-row lg:flex-col justify-center items-center gap-6 lg:gap-20 w-full lg:w-4/12 bg-paletteBlue-light lg:pr-16 rounded-right-border-desktop">
-        <ui-year-picker
-            [years]="years"
-            [selectedYear]="selectedYear"
-            (onChange)="onYearChanged($event)"
-        ></ui-year-picker>
-        <ui-month-picker
-            [months]="months"
-            [selectedMonth]="selectedMonthIndex"
-            (onChange)="onMonthChanged($event)"
-        ></ui-month-picker>
+    <aside class="flex flex-col justify-center items-center w-full lg:w-4/12 gap-4 bg-paletteBlue-light lg:pr-16 rounded-right-border-desktop">
+        <app-header class="w-full lg:absolute lg:top-6 lg:left-6"></app-header>
+        <div class="flex lg:flex-col justify-between items-center gap-10 lg:gap-32">
+            <ui-year-picker
+                [years]="years"
+                [selectedYear]="selectedYear"
+                (onChange)="onYearChanged($event)"
+            ></ui-year-picker>
+            <ui-month-picker
+                [months]="months"
+                [selectedMonth]="selectedMonthIndex"
+                (onChange)="onMonthChanged($event)"
+            ></ui-month-picker>
+        </div>
     </aside>
     <section class="flex justify-start items-center w-full lg:w-8/12 z-10 bg-white">
         <ng-container *ngIf="(daysObs$ | async) as days">

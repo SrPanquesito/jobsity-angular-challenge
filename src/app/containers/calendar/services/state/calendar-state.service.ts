@@ -28,6 +28,11 @@ export class CalendarStateService {
     return this.getMonthDays(this.currentMonthIndex, this.currentYear);
   }
 
+  public getCurrentDay() {
+    let currentDate = this.getCurrentDate();
+    return this.createDay(currentDate.day, currentDate.monthIndex, currentDate.year);
+  }
+
   /* Create days without reminders nor weather */
   public getMonthDays(monthIndex: number, year: number): Day[] {
     let days = [];

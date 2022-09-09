@@ -100,6 +100,10 @@ export class CalendarFacadeService {
     return this._CalendarStateService.getCurrentDate();
   }
 
+  getCurrentDay() {
+    return this._CalendarStateService.getCurrentDay();
+  }
+
   /* ******************** Reminders ******************** */
   private reminders: Reminder[] = [];
 
