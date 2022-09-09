@@ -7,7 +7,7 @@ import { arrayToMatrix } from '@shared/utils/utils';
   templateUrl: './ui-calendar.component.html',
   styles: [`
     table { table-layout: fixed; }
-    th { text-align: center; font-weight: 500 }
+    th { text-align: center; font-weight: 700 }
   `]
 })
 export class UiCalendarComponent implements OnInit, OnChanges {

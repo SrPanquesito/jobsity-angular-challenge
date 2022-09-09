@@ -7,7 +7,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { CarouselComponent, CarouselItemElementDirective } from './components/carousel/carousel.component';
 import { CarouselItemDirective } from './components/carousel/carousel-item.directive';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faCaretLeft, faCaretRight, fas } from '@fortawesome/free-solid-svg-icons';
+import { UiReminderAddButtonComponent } from './ui/ui-reminder-add-button/ui-reminder-add-button.component';
 
 const SHARED = [
   FirstLetterUppercasePipe,
@@ -17,6 +17,7 @@ const SHARED = [
   CarouselItemDirective,
   CarouselComponent,
   CarouselItemElementDirective,
+  UiReminderAddButtonComponent,
 ];
 
 @NgModule({

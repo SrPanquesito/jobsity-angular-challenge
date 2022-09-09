@@ -1,10 +1,10 @@
 <div class="flex flex-col justify-center items-center relative h-24 overflow-hidden gap-4 bg-white-to-gray-parent" (click)="onOpenReminderList($event)">
     <ng-container *ngIf="day.activeCell; else renderDisabledDay">
         <div class="cursor-pointer rounded-full" 
-            [ngClass]="{'bg-paletteBlue': day.isCurrentDay, 'bg-white-to-gray': !day.isCurrentDay}"
+            [ngClass]="{'bg-paletteBlue shadow-md': day.isCurrentDay, 'bg-white-to-gray': !day.isCurrentDay}"
             #anchorForReminderList
             >
-            <small class="lg:text-2xl font-stem font-medium select-none p-4" [ngClass]="{'text-gray-100': day.isCurrentDay,'text-gray-700': !day.isCurrentDay}">{{ day.number }}</small>
+            <small class="lg:text-2xl font-poppins font-semibold lg:font-medium select-none p-4" [ngClass]="{'text-gray-100': day.isCurrentDay,'text-gray-700': !day.isCurrentDay}">{{ day.number }}</small>
         </div>
         <ng-container *ngIf="day.reminders?.length > 0">
             <div class="absolute bottom-0 flex gap-1 justify-center items-center max-w-xs overflow-hidden cursor-pointer" [ngClass]="{'scroll-fade-white-x': day.reminders.length > 3}">
@@ -19,9 +19,4 @@
             <small class="lg:text-2xl font-stem font-medium select-none p-4 text-gray-500">{{ day.number }}</small>
         </div>
     </ng-template>
-    <!-- <ng-container *ngIf="weather">
-        <div class="absolute top-0 right-0">
-            <img class="w-10 h-10" [src]="'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '.png'" alt="">
-        </div>
-    </ng-container> -->
 </div>

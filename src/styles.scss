@@ -194,12 +194,12 @@
 .scroll-fade:before {
     top   : 0;
     background-image : linear-gradient(to top, rgba(255,255,255, 0), #f2f2ff 90%);
-    height   : 3em;
+    height   : 2em;
 }
 .scroll-fade:after {
     bottom   : 0;
     background-image : linear-gradient(to bottom, rgba(255,255,255, 0), #f2f2ff 90%);
-    height   : 3em;
+    height   : 2em;
 }
 .scroll-fade-white:before {
     top   : 0;
@@ -271,6 +271,7 @@
         border-right: 500px solid white;
         border-top: 0 solid transparent;
         border-radius: 100%;
+        box-shadow: 0px 0px 10px 4px #d8d9f7;
     }
 
     .scroll-fade:before {

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { CalendarRoutingModule } from './calendar-routing.module';
 import { CalendarComponent } from './calendar.component';
@@ -32,6 +33,7 @@ import { UiReminderButtonComponent } from './ui/ui-reminder-button/ui-reminder-b
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
+    FontAwesomeModule,
   ]
 })
 export class CalendarModule { }

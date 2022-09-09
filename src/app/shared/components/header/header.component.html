@@ -9,10 +9,6 @@
     </div>
   </section>
   <section class="lg:hidden">
-    <div class="relative flex justify-center items-center w-12 h-12 rounded-full shadow cursor-pointer transition duration-200 ease-in-out bg-paletteBlue hover:bg-blue-500"
-        (click)="onOpenReminderForm()">
-        <span class="text-2xl"><fa-icon class="text-white" [icon]="faTag" size="sm"></fa-icon></span>
-        <span class="absolute top-0 right-2 text-lg"><fa-icon style="color: #35ff35" [icon]="faPlus" size="xs"></fa-icon></span>
-    </div>
+    <ui-reminder-add-button (click)="onOpenReminderForm()"></ui-reminder-add-button>
   </section>
 </nav>

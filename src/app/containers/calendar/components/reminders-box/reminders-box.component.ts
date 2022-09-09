@@ -3,6 +3,7 @@ import { Day, Reminder } from '@containers/calendar/interfaces/calendar.interfac
 import { RemindersBoxService } from '@containers/calendar/services/reminders-box.service';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { faTag, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-reminders-box',
@@ -15,6 +16,9 @@ export class RemindersBoxComponent implements OnInit, OnDestroy {
   public offsetX: string = '';
   public offsetY: string = '';
   public styleSearchList = '';
+
+  faPlus = faPlus;
+  faTag = faTag;
 
   public day?: Day;
 
