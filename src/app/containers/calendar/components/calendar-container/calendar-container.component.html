@@ -14,7 +14,8 @@
             ></ui-month-picker>
         </div>
     </aside>
-    <section class="flex justify-start items-center w-full lg:w-8/12 z-10 bg-white">
+    <section class="flex flex-col justify-center items-start w-full lg:w-8/12 z-10 bg-white">
+        <h1 class="text-lg lg:text-3xl font-poppins font-semibold w-full text-left ml-4 mt-8 lg:ml-16 lg:mt-0 lg:mb-12">{{ isSelectedDateCurrentMonth() ? (currentDate | date: 'MMM d, y') : (selectedDate | date: 'MMM, y') }}</h1>
         <ng-container *ngIf="(daysObs$ | async) as days">
             <ui-calendar
                 [days]="days"
