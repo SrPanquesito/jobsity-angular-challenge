@@ -32,6 +32,8 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
   get time() { return this.form.get('time') }
   get color() { return this.form.get('color') }
 
+  private previousDateOfReminder?: string;
+
   public colorOptions: Array<Color> = ['red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
 
   public temperatureInCelsius = true;
@@ -60,8 +62,12 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
     }
 
     // Set selected date into date input
-    if (this._ref?.data?.day) { this.date.setValue(this.formatDate(this._ref.data.day)) }
     if (this._ref?.data?.reminder) { this.fillFields(this._ref.data.reminder) }
+    if (this._ref?.data?.day) { 
+      console.log(this._ref.data.day)
+      this.date.setValue(this.formatDate(this._ref.data.day));
+      this.previousDateOfReminder = this.formatDate(this._ref.data.day);
+    }
   }
 
   ngOnDestroy(): void {
@@ -125,6 +131,7 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
 
       if (this._ref?.data?.reminder) {
         reminder.originalCreationDate = this._ref.data.reminder.originalCreationDate
+        reminder.previousDate = new Date(this.previousDateOfReminder);
         this._CalendarFacadeService.editReminder(reminder);
       }
       else {

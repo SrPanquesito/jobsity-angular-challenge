@@ -51,11 +51,16 @@ export class CalendarFacadeService {
     reminderDate = { year: reminderDate.getFullYear(), monthIndex: reminderDate.getMonth(), number: reminderDate.getDate()+1 };
     this.days$.getValue().forEach((day: Day) => {
       if (reminderDate.year === day.year && reminderDate.monthIndex === day.monthIndex && reminderDate.number === day.number) {
-        for (let i = 0; i < day.reminders.length; i++) {
-          if (day.reminders[i].originalCreationDate === editedReminder.originalCreationDate) {
-            day.reminders[i] = editedReminder;
-            break
+        if (day.reminders) {
+          for (let i = 0; i < day.reminders.length; i++) {
+            if (day.reminders[i].originalCreationDate === editedReminder.originalCreationDate) {
+              day.reminders[i] = editedReminder;
+              break
+            }
           }
+        }
+        else {
+          day.reminders = [editedReminder];
         }
       }
     });
@@ -115,14 +120,25 @@ export class CalendarFacadeService {
   }
 
   editReminder(data: Reminder): Reminder {
-    for (let i = 0; i < this.reminders.length; i++) {
-      if (data.originalCreationDate === this.reminders[i].originalCreationDate) {
-        this.reminders[i] = data;
-        localStorage.setItem('reminders', JSON.stringify(this.reminders));
-        this.editedReminderToDay(data);
-        break
+    if (data.dateTime.toISOString().split('T')[0] === data.previousDate.toISOString().split('T')[0]) {
+      for (let i = 0; i < this.reminders.length; i++) {
+        if (data.originalCreationDate === this.reminders[i].originalCreationDate) {
+          this.reminders[i] = data;
+          this.editedReminderToDay(data);
+          break
+        }
       }
     }
+    else {
+      let dateTime = data.dateTime;
+      data.dateTime = data.previousDate;
+      this.deleteReminder(data);
+      data.dateTime = dateTime;
+      this.reminders.push(data);
+      this.addReminderToDay(data);
+
+    }
+    localStorage.setItem('reminders', JSON.stringify(this.reminders));
     return data;
   }
 
