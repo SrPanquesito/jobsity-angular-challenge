@@ -37,11 +37,15 @@ export class UiCalendarDayComponent implements OnInit, OnChanges {
       let offsetX = this.anchorForReminderList.nativeElement.getBoundingClientRect().left + window.scrollX - 100;
       let offsetY = this.anchorForReminderList.nativeElement.getBoundingClientRect().top + window.scrollY + 60;
   
-      let maxRightOffset = (offsetX + 256) > window.screen.width;
+      let maxRightOffset = (offsetX + 320) > window.innerWidth;
       let maxLeftOffset = offsetX < 0;
   
-      offsetX = maxRightOffset ? window.screen.width - 256 : offsetX;
+      offsetX = maxRightOffset ? window.innerWidth - 325 : offsetX;
       offsetX = maxLeftOffset ? 0 : offsetX;
+
+      let maxBottomOffset = (offsetY + 320) > window.innerHeight;
+
+      offsetY = maxBottomOffset ? window.innerHeight - 330 : offsetY;
   
       this._RemindersBoxService.show(offsetX, offsetY, this.day);
     }

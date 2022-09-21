@@ -10,12 +10,16 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      zIndex: {
+        '100': '100',
+      },
       borderWidth: {
         '6': '6px'
       },
       width: {
         '80': '20rem',
         '96': '24rem',
+        '36vh': '36vh',
         '1/7': '14.2857143%',
         '2/7': '28.5714286%',
         '3/7': '42.8571429%',
