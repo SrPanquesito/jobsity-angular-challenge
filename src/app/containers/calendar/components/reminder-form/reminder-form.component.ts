@@ -62,7 +62,10 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
     }
 
     // Set selected date into date input
-    if (this._ref?.data?.reminder) { this.fillFields(this._ref.data.reminder) }
+    if (this._ref?.data?.reminder) {
+      this.fillFields(this._ref.data.reminder);
+      this.fetchWeather();
+    }
     if (this._ref?.data?.day) { 
       console.log(this._ref.data.day)
       this.date.setValue(this.formatDate(this._ref.data.day));
