@@ -29,7 +29,7 @@ export class CalendarFacadeService {
   }
   private addReminderToDay(reminder: Reminder) {
     let reminderDate: any = new Date(reminder.dateTime);
-    reminderDate = { year: reminderDate.getFullYear(), monthIndex: reminderDate.getMonth(), number: reminderDate.getDate()+1 };
+    reminderDate = { year: reminderDate.getFullYear(), monthIndex: reminderDate.getMonth(), number: reminderDate.getDate() };
     this.days$.getValue().forEach((day: Day) => {
       if (reminderDate.year === day.year && reminderDate.monthIndex === day.monthIndex && reminderDate.number === day.number) {
         (day.reminders?.length > 0) ? day.reminders.push(reminder) : day.reminders = [reminder];
@@ -40,7 +40,7 @@ export class CalendarFacadeService {
     this.days$.getValue().forEach((day: Day) => {
       this.reminders.forEach((reminder: Reminder) => {
         let reminderDate: any = new Date(reminder.dateTime);
-        if (reminderDate.getFullYear() === day.year && reminderDate.getMonth() === day.monthIndex && reminderDate.getDate()+1 === day.number) {
+        if (reminderDate.getFullYear() === day.year && reminderDate.getMonth() === day.monthIndex && reminderDate.getDate() === day.number) {
           (day.reminders?.length > 0) ? day.reminders.push(reminder) : day.reminders = [reminder];
         }
       })
@@ -48,7 +48,7 @@ export class CalendarFacadeService {
   }
   private editedReminderToDay(editedReminder: Reminder) {
     let reminderDate: any = new Date(editedReminder.dateTime);
-    reminderDate = { year: reminderDate.getFullYear(), monthIndex: reminderDate.getMonth(), number: reminderDate.getDate()+1 };
+    reminderDate = { year: reminderDate.getFullYear(), monthIndex: reminderDate.getMonth(), number: reminderDate.getDate() };
     this.days$.getValue().forEach((day: Day) => {
       if (reminderDate.year === day.year && reminderDate.monthIndex === day.monthIndex && reminderDate.number === day.number) {
         if (day.reminders) {
@@ -67,7 +67,7 @@ export class CalendarFacadeService {
   }
   private deleteReminderInDay(reminder: Reminder) {
     let reminderDate: any = new Date(reminder.dateTime);
-    reminderDate = { year: reminderDate.getFullYear(), monthIndex: reminderDate.getMonth(), number: reminderDate.getDate()+1 };
+    reminderDate = { year: reminderDate.getFullYear(), monthIndex: reminderDate.getMonth(), number: reminderDate.getDate() };
     this.days$.getValue().forEach((day: Day) => {
       if (reminderDate.year === day.year && reminderDate.monthIndex === day.monthIndex && reminderDate.number === day.number) {
         for (let i = 0; i < day.reminders.length; i++) {

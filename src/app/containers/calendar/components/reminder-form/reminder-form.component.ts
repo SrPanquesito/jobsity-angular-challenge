@@ -32,7 +32,7 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
   get time() { return this.form.get('time') }
   get color() { return this.form.get('color') }
 
-  private previousDateOfReminder?: string;
+  private previousDateOfReminder?: any;
 
   public colorOptions: Array<Color> = ['red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
 
@@ -69,7 +69,7 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
     if (this._ref?.data?.day) { 
       console.log(this._ref.data.day)
       this.date.setValue(this.formatDate(this._ref.data.day));
-      this.previousDateOfReminder = this.formatDate(this._ref.data.day);
+      this.previousDateOfReminder = this._ref.data.day;
     }
   }
 
@@ -123,18 +123,17 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
     this.showErrors = true;
     if (this.form.valid) {
       let date = this.date.value.split('-');
-      date = this.formatDate({year: Number(date[0]), monthIndex: Number(date[1])-1, number: Number(date[2])});
       let reminder: Reminder = {
         text: this.text.value,
         city: this.city.value,
-        dateTime: new Date(date),
+        dateTime: new Date( Number(date[0]), Number(date[1])-1, Number(date[2]) ),
         time: this.time.value,
         color: this.color.value,
       };
 
       if (this._ref?.data?.reminder) {
         reminder.originalCreationDate = this._ref.data.reminder.originalCreationDate
-        reminder.previousDate = new Date(this.previousDateOfReminder);
+        reminder.previousDate = new Date(this.previousDateOfReminder.year, this.previousDateOfReminder.monthIndex, this.previousDateOfReminder.number);
         this._CalendarFacadeService.editReminder(reminder);
       }
       else {
