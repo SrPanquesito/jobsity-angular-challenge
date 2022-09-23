@@ -56,6 +56,12 @@ export interface Weather {
     timezone?: string,
 }
 
+export interface WeatherResponseAPI {
+    current: Weather,
+    daily: Array<Weather>,
+    timezone: string
+}
+
 export class Day {
     number: number;
     year: number;

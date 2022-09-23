@@ -112,7 +112,7 @@
             </div>
         </form>
         <div class="flex flex-col justify-center items-center lg:w-1/2 gap-3 relative">
-            <ng-container *ngIf="(weatherObs$ | async) as weather; else renderNoInfoAvailable">
+            <ng-container *ngIf="weather; else renderNoInfoAvailable">
                 <div class="absolute top-8 right-8">
                     <div class="flex flex-row gap-2 lg:text-2xl">
                         <span class="cursor-pointer" [ngClass]="{'text-gray-500': !temperatureInCelsius}" (click)="temperatureInCelsius = true">C</span>
@@ -123,11 +123,18 @@
                 <img [src]="'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png'" alt="">
                 <h1 class="lg:text-xl font-bold"> {{ temperatureInCelsius ? (weather.temp?.day || weather.temp | kelvinToCelsius) : (weather.temp?.day || weather.temp | kelvinToFahrenheit) }}°{{ temperatureInCelsius ? 'C' : 'F' }}</h1>
                 <span class="text-sm lg:text-base italic text-gray-500">{{ weather.weather[0].main }}</span>
+                <span class="text-sm text-gray-500 pb-3">{{ displayDate(weather.dt) }}</span>
                 <p class="text-sm lg:text-base"> {{ weather.weather[0].description | firstLetterUppercase }} </p>
             </ng-container>
+            <ng-container *ngIf="weatherOutOfForecast">
+                <span class="text-orange-500">Weather info not available for the selected date...</span>
+                <span class="text-center text-sm italic text-orange-400">Note: You can still save the reminder.</span>
+            </ng-container>
             <ng-template #renderNoInfoAvailable>
-                <span class="lg:text-xl text-gray-500">No weather info available yet...</span>
-                <span class="text-center text-sm italic text-gray-400">Search for a city to see the current weather condition.</span>
+                <ng-container *ngIf="!weatherOutOfForecast">
+                    <span class="lg:text-xl text-gray-500">No weather info available yet...</span>
+                    <span class="text-center text-sm italic text-gray-400">Search for a city to see the current weather condition.</span>
+                </ng-container>
             </ng-template>
         </div>
     </div>

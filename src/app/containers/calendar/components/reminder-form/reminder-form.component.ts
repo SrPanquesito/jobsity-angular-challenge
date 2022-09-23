@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { DialogRef } from '@ngneat/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Reminder, City, Weather, Day, Color } from '@containers/calendar/interfaces/calendar.interface';
+import { Reminder, City, Weather, Day, Color, WeatherResponseAPI } from '@containers/calendar/interfaces/calendar.interface';
 import { AppService } from 'src/app/app.service';
-import { Observable } from 'rxjs';
-import { debounceTime, map, startWith } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, map, startWith, takeUntil } from 'rxjs/operators';
 import { CalendarFacadeService } from '@containers/calendar/services/calendar-facade.service';
 
 @Component({
@@ -41,7 +41,10 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
   public showErrors = false;
   private previousCity?: string;
   
-  public weatherObs$ = this._CalendarFacadeService.weatherObs$;
+  public weatherOutOfForecast: boolean = false;
+  public weather?: Weather | null;
+
+  private destroy$: Subject<unknown> = new Subject<unknown>();
 
   constructor(
     public _ref: DialogRef,
@@ -61,6 +64,44 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
       );
     }
 
+    // Subscribe to forecast weather week
+    this._CalendarFacadeService.weatherForecastObs$
+    .pipe(
+      takeUntil(this.destroy$),
+      map((res: WeatherResponseAPI | null) => {
+        if (res?.current) {
+          const selectedDate = new Date(this._ref.data.day.year, this._ref.data.day.monthIndex, this._ref.data.day.number);
+          const currentWeatherDate = new Date(res.current.dt);
+  
+          if (selectedDate.getFullYear() === currentWeatherDate.getFullYear() &&
+              selectedDate.getMonth() === currentWeatherDate.getMonth() &&
+              selectedDate.getDate() === currentWeatherDate.getDate()) {
+            this.weather = res.current;
+            this.weatherOutOfForecast = false;
+          }
+          else if (res?.daily) {
+            this.weather = null;
+            this.weatherOutOfForecast = true;
+
+            for (let i = 0; i < res.daily.length; i++) {
+              let weatherDate = new Date(res.daily[i].dt);
+              if (selectedDate.getFullYear() === weatherDate.getFullYear() &&
+                  selectedDate.getMonth() === weatherDate.getMonth() &&
+                  selectedDate.getDate() === weatherDate.getDate()) {
+                this.weather = res.daily[i];
+                this.weatherOutOfForecast = false;
+                break;
+              }
+            }
+          }
+          else {
+            this.weather = null;
+            this.weatherOutOfForecast = true;
+          }
+        }
+      })
+    ).subscribe();
+
     // Set selected date into date input
     if (this._ref?.data?.reminder) {
       this.fillFields(this._ref.data.reminder);
@@ -74,7 +115,13 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._CalendarFacadeService.weather = null; 
+    this._CalendarFacadeService.weatherForecast = null; 
+    this.destroy$.next(null);
+    this.destroy$.complete();
+  }
+
+  public displayDate(date: number | Date): string {
+    return new Date(Number(date)).toDateString()
   }
 
   private fillFields(reminder: Reminder) {

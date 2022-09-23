@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { Day, Reminder, Weather } from '../interfaces/calendar.interface';
+import { Day, Reminder, Weather, WeatherResponseAPI } from '../interfaces/calendar.interface';
 import { CalendarApiService } from './api/calendar-api.service';
 import { CalendarStateService } from './state/calendar-state.service';
 import { flatMap, catchError, map, first } from 'rxjs/operators';
@@ -172,13 +172,13 @@ export class CalendarFacadeService {
   }
 
   // If I have time, calculate forecast for the current week
-  private weatherForecast$: BehaviorSubject<Array<Weather> | []> = new BehaviorSubject<Array<Weather> | []>([]);
-  public weatherForecastObs$: Observable<Array<Weather> | []> = this.weatherForecast$.asObservable();
+  private weatherForecast$: BehaviorSubject<WeatherResponseAPI | null> = new BehaviorSubject<WeatherResponseAPI | null>(null);
+  public weatherForecastObs$: Observable<WeatherResponseAPI | null> = this.weatherForecast$.asObservable();
 
-  get weatherForecast(): Array<Weather> | [] {
+  get weatherForecast(): WeatherResponseAPI | null {
     return this.weatherForecast$.getValue();
   }
-  set weatherForecast(val: Array<Weather> | []) {
+  set weatherForecast(val: WeatherResponseAPI | null) {
     this.weatherForecast$.next(val);
   }
 
@@ -187,15 +187,17 @@ export class CalendarFacadeService {
     .pipe(
       flatMap((res: Array<any>) => this._CalendarApiService.getOpenWeatherForecast({lat: res[0].lat, lon: res[0].lon})),
       first(),
-      map((res: { current: Weather, daily: Array<Weather>, timezone: string }) => {
+      map((res: WeatherResponseAPI) => {
         console.warn(res)
-        res.current.timezone = res.timezone;
-        this.weather$.next(res.current);
+        // Unix timestamp to Javascript timestamp
+        res.current.dt = Number(res.current.dt) * 1000;
+        res.daily.forEach(day => { day.dt = Number(day.dt) * 1000 });
+        this.weatherForecast$.next(res);
         return res
       }),
       catchError(err => {
         console.log('err')
-        this.weather$.next(null);
+        this.weatherForecast$.next(null);
         return err
       })
     )
